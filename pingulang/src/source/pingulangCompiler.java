@@ -3,166 +3,582 @@
 package source;
 
 public class pingulangCompiler implements pingulangCompilerConstants {
-  public static void main(String args []) throws ParseException
-  {
+  public static void main(String args[]) throws ParseException {
     pingulangCompiler parser = new pingulangCompiler(System.in);
-    while (true)
-    {
-      System.out.println("Reading from standard input...");
-      System.out.print("Enter an expression like \"1+(2+3)*4;\" :");
-      try
-      {
-        switch (pingulangCompiler.one_line())
-        {
-          case 0 :
-          System.out.println("OK.");
-          break;
-          case 1 :
-          System.out.println("Goodbye.");
-          break;
-          default :
-          break;
-        }
-      }
-      catch (Exception e)
-      {
-        System.out.println("NOK.");
-        System.out.println(e.getMessage());
-        pingulangCompiler.ReInit(System.in);
-      }
-      catch (Error e)
-      {
-        System.out.println("Oops.");
-        System.out.println(e.getMessage());
-        break;
-      }
+    try {
+        parser.Programa();
+        System.out.println("An\u00e1lise conclu\u00edda com sucesso! Programa v\u00e1lido.");
+    } catch (ParseException e) {
+        System.out.println("Erro na linha " + e.currentToken.beginLine + ", coluna " + e.currentToken.beginColumn);
+        System.out.println("Token inesperado: " + e.currentToken.image);
+        System.out.println("Mensagem: " + e.getMessage());
     }
-  }
-
-  static final public int one_line() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case MINUS:
-    case CONSTANT:
-    case 12:{
-      sum();
-      jj_consume_token(11);
-{if ("" != null) return 0;}
-      break;
-      }
-    case 11:{
-      jj_consume_token(11);
-{if ("" != null) return 1;}
-      break;
-      }
-    default:
-      jj_la1[0] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-    throw new Error("Missing return statement in function");
 }
 
-  static final public void sum() throws ParseException {
-    term();
+/* REGRAS GRAMATICAIS */
+  static final public void Programa() throws ParseException {
+    jj_consume_token(INICIO_PROGRAMA);
+    Declaracoes();
+    Comandos();
+    jj_consume_token(FIM_PROGRAMA);
+}
+
+  static final public void Declaracoes() throws ParseException {
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case PLUS:
-      case MINUS:{
+      case INT_TYPE:
+      case FLOAT_TYPE:
+      case BOOL_TYPE:
+      case CHAR_TYPE:{
         ;
         break;
         }
       default:
-        jj_la1[1] = jj_gen;
+        jj_la1[0] = jj_gen;
         break label_1;
       }
+      Declaracao();
+    }
+}
+
+  static final public void Declaracao() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case INT_TYPE:{
+      jj_consume_token(INT_TYPE);
+      break;
+      }
+    case FLOAT_TYPE:{
+      jj_consume_token(FLOAT_TYPE);
+      break;
+      }
+    case BOOL_TYPE:{
+      jj_consume_token(BOOL_TYPE);
+      break;
+      }
+    case CHAR_TYPE:{
+      jj_consume_token(CHAR_TYPE);
+      break;
+      }
+    default:
+      jj_la1[1] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    ListaVariaveis();
+    jj_consume_token(PINGU);
+}
+
+  static final public void ListaVariaveis() throws ParseException {
+    Variavel();
+    label_2:
+    while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case PLUS:{
-        jj_consume_token(PLUS);
-        break;
-        }
-      case MINUS:{
-        jj_consume_token(MINUS);
+      case 38:{
+        ;
         break;
         }
       default:
         jj_la1[2] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        break label_2;
       }
-      term();
+      jj_consume_token(38);
+      Variavel();
     }
 }
 
-  static final public void term() throws ParseException {
-    unary();
-    label_2:
-    while (true) {
+  static final public void Variavel() throws ParseException {
+    jj_consume_token(ID);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case OP_IGUAL:
+    case OP_AUMENTO:
+    case OP_DIMINUI:
+    case OP_MULTIPLICA:
+    case OP_DIVIDE:{
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case MULTIPLY:
-      case DIVIDE:{
-        ;
+      case OP_IGUAL:{
+        jj_consume_token(OP_IGUAL);
+        break;
+        }
+      case OP_AUMENTO:{
+        jj_consume_token(OP_AUMENTO);
+        break;
+        }
+      case OP_DIMINUI:{
+        jj_consume_token(OP_DIMINUI);
+        break;
+        }
+      case OP_MULTIPLICA:{
+        jj_consume_token(OP_MULTIPLICA);
+        break;
+        }
+      case OP_DIVIDE:{
+        jj_consume_token(OP_DIVIDE);
         break;
         }
       default:
         jj_la1[3] = jj_gen;
-        break label_2;
-      }
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case MULTIPLY:{
-        jj_consume_token(MULTIPLY);
-        break;
-        }
-      case DIVIDE:{
-        jj_consume_token(DIVIDE);
-        break;
-        }
-      default:
-        jj_la1[4] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      unary();
-    }
-}
-
-  static final public void unary() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case MINUS:{
-      jj_consume_token(MINUS);
-      element();
-      break;
-      }
-    case CONSTANT:
-    case 12:{
-      element();
+      Expressao();
       break;
       }
     default:
-      jj_la1[5] = jj_gen;
+      jj_la1[4] = jj_gen;
+      ;
+    }
+}
+
+/*Incertos*/
+
+/* REGRAS DE COMANDOS */
+  static final public void Comandos() throws ParseException {
+    label_3:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case INICIO_BLOCO:
+      case IF:
+      case WHILE:
+      case FOR:
+      case DO:
+      case PRINT:
+      case INPUT:
+      case ID:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[5] = jj_gen;
+        break label_3;
+      }
+      Comando();
+    }
+}
+
+  static final public void Comando() throws ParseException {
+    if (jj_2_1(2)) {
+      Condicional();
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case WHILE:
+      case FOR:
+      case DO:{
+        Repeticao();
+        break;
+        }
+      case ID:{
+        Atribuicao();
+        jj_consume_token(PINGU);
+        break;
+        }
+      case PRINT:
+      case INPUT:{
+        EntradaSaida();
+        jj_consume_token(PINGU);
+        break;
+        }
+      case INICIO_BLOCO:{
+        Bloco();
+        break;
+        }
+      default:
+        jj_la1[6] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+}
+
+/* ATRIBUIÇÕES */
+  static final public void Atribuicao() throws ParseException {
+    jj_consume_token(ID);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case OP_IGUAL:{
+      jj_consume_token(OP_IGUAL);
+      break;
+      }
+    case OP_AUMENTO:{
+      jj_consume_token(OP_AUMENTO);
+      break;
+      }
+    case OP_DIMINUI:{
+      jj_consume_token(OP_DIMINUI);
+      break;
+      }
+    case OP_MULTIPLICA:{
+      jj_consume_token(OP_MULTIPLICA);
+      break;
+      }
+    case OP_DIVIDE:{
+      jj_consume_token(OP_DIVIDE);
+      break;
+      }
+    default:
+      jj_la1[7] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    Expressao();
+}
+
+/* ESTRUTURAS CONDICIONAIS */
+  static final public void Condicional() throws ParseException {
+    jj_consume_token(IF);
+    jj_consume_token(39);
+    Expressao();
+    jj_consume_token(40);
+    Comando();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case ELSE:{
+      jj_consume_token(ELSE);
+      Comando();
+      break;
+      }
+    default:
+      jj_la1[8] = jj_gen;
+      ;
+    }
+}
+
+/* ESTRUTURAS DE REPETIÇÃO */
+  static final public void Repeticao() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case WHILE:{
+      While();
+      break;
+      }
+    case FOR:{
+      For();
+      break;
+      }
+    case DO:{
+      DoWhile();
+      break;
+      }
+    default:
+      jj_la1[9] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
 }
 
-  static final public void element() throws ParseException {
+  static final public void While() throws ParseException {
+    jj_consume_token(WHILE);
+    jj_consume_token(39);
+    Expressao();
+    jj_consume_token(40);
+    Comando();
+}
+
+  static final public void For() throws ParseException {
+    jj_consume_token(FOR);
+    jj_consume_token(39);
+    if (jj_2_2(2147483647)) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case INT_TYPE:{
+        jj_consume_token(INT_TYPE);
+        break;
+        }
+      case FLOAT_TYPE:{
+        jj_consume_token(FLOAT_TYPE);
+        break;
+        }
+      case BOOL_TYPE:{
+        jj_consume_token(BOOL_TYPE);
+        break;
+        }
+      case CHAR_TYPE:{
+        jj_consume_token(CHAR_TYPE);
+        break;
+        }
+      default:
+        jj_la1[10] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jj_consume_token(ID);
+      jj_consume_token(OP_IGUAL);
+      Expressao();
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case ID:{
+        jj_consume_token(ID);
+        jj_consume_token(OP_IGUAL);
+        Expressao();
+        break;
+        }
+      default:
+        jj_la1[11] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+    jj_consume_token(38);
+    Expressao();
+    jj_consume_token(38);
+    jj_consume_token(ID);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case CONSTANT:{
-      jj_consume_token(CONSTANT);
+    case OP_IGUAL:{
+      jj_consume_token(OP_IGUAL);
       break;
       }
-    case 12:{
-      jj_consume_token(12);
-      sum();
-      jj_consume_token(13);
+    case OP_AUMENTO:{
+      jj_consume_token(OP_AUMENTO);
+      break;
+      }
+    case OP_DIMINUI:{
+      jj_consume_token(OP_DIMINUI);
+      break;
+      }
+    case OP_MULTIPLICA:{
+      jj_consume_token(OP_MULTIPLICA);
+      break;
+      }
+    case OP_DIVIDE:{
+      jj_consume_token(OP_DIVIDE);
       break;
       }
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[12] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    Expressao();
+    jj_consume_token(40);
+    Comando();
+}
+
+  static final public void DoWhile() throws ParseException {
+    jj_consume_token(DO);
+    Comando();
+    jj_consume_token(WHILE);
+    jj_consume_token(39);
+    Expressao();
+    jj_consume_token(40);
+    jj_consume_token(PINGU);
+}
+
+/* ENTRADA/SAÍDA */
+  static final public void EntradaSaida() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case PRINT:{
+      jj_consume_token(PRINT);
+      jj_consume_token(39);
+      Expressao();
+      jj_consume_token(40);
+      break;
+      }
+    case INPUT:{
+      jj_consume_token(INPUT);
+      jj_consume_token(39);
+      jj_consume_token(ID);
+      jj_consume_token(40);
+      break;
+      }
+    default:
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
 }
+
+/* BLOCOS */
+  static final public void Bloco() throws ParseException {
+    jj_consume_token(INICIO_BLOCO);
+    Comandos();
+    jj_consume_token(FIM_BLOCO);
+}
+
+/* EXPRESSÕES */
+  static final public void Expressao() throws ParseException {
+    ExpressaoLogica();
+}
+
+  static final public void ExpressaoLogica() throws ParseException {
+    ExpressaoRelacional();
+    label_4:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case OP_LOGICO:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[14] = jj_gen;
+        break label_4;
+      }
+      jj_consume_token(OP_LOGICO);
+      ExpressaoRelacional();
+    }
+}
+
+  static final public void ExpressaoRelacional() throws ParseException {
+    ExpressaoAritmetica();
+    label_5:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case OP_RELACIONAL:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[15] = jj_gen;
+        break label_5;
+      }
+      jj_consume_token(OP_RELACIONAL);
+      ExpressaoAritmetica();
+    }
+}
+
+  static final public void ExpressaoAritmetica() throws ParseException {
+    Termo();
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case OP_ARITMETICO:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[16] = jj_gen;
+        break label_6;
+      }
+      jj_consume_token(OP_ARITMETICO);
+      Termo();
+    }
+}
+
+  static final public void Termo() throws ParseException {
+    Fator();
+    label_7:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case 41:
+      case 42:
+      case 43:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[17] = jj_gen;
+        break label_7;
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case 41:{
+        jj_consume_token(41);
+        break;
+        }
+      case 42:{
+        jj_consume_token(42);
+        break;
+        }
+      case 43:{
+        jj_consume_token(43);
+        break;
+        }
+      default:
+        jj_la1[18] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      Fator();
+    }
+}
+
+  static final public void Fator() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case ID:{
+      jj_consume_token(ID);
+      break;
+      }
+    case INTEIRO:{
+      jj_consume_token(INTEIRO);
+      break;
+      }
+    case FLOAT:{
+      jj_consume_token(FLOAT);
+      break;
+      }
+    case TRUE:{
+      jj_consume_token(TRUE);
+      break;
+      }
+    case FALSE:{
+      jj_consume_token(FALSE);
+      break;
+      }
+    case CHAR:{
+      jj_consume_token(CHAR);
+      break;
+      }
+    case STRING:{
+      jj_consume_token(STRING);
+      break;
+      }
+    case 39:{
+      jj_consume_token(39);
+      Expressao();
+      jj_consume_token(40);
+      break;
+      }
+    case 44:{
+      jj_consume_token(44);
+      Fator();
+      break;
+      }
+    default:
+      jj_la1[19] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+}
+
+  static private boolean jj_2_1(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_1()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(0, xla); }
+  }
+
+  static private boolean jj_2_2(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_2()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(1, xla); }
+  }
+
+  static private boolean jj_3_2()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(12)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(13)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(14)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(15)) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_Condicional_172_5_8()
+ {
+    if (jj_scan_token(IF)) return true;
+    if (jj_scan_token(39)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1()
+ {
+    if (jj_3R_Condicional_172_5_8()) return true;
+    return false;
+  }
 
   static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
@@ -173,15 +589,25 @@ public class pingulangCompiler implements pingulangCompilerConstants {
   /** Next token. */
   static public Token jj_nt;
   static private int jj_ntk;
+  static private Token jj_scanpos, jj_lastpos;
+  static private int jj_la;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[7];
+  static final private int[] jj_la1 = new int[20];
   static private int[] jj_la1_0;
+  static private int[] jj_la1_1;
   static {
 	   jj_la1_init_0();
+	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x1a40,0x60,0x60,0x180,0x180,0x1240,0x1200,};
+	   jj_la1_0 = new int[] {0xf000,0xf000,0x0,0xf0000000,0xf0000000,0x1f40200,0x1f00200,0xf0000000,0x80000,0x700000,0xf000,0x0,0xf0000000,0x1800000,0x4000000,0x2000000,0x8000000,0x0,0x0,0x30000,};
 	}
+	private static void jj_la1_init_1() {
+	   jj_la1_1 = new int[] {0x0,0x0,0x40,0x1,0x1,0x20,0x20,0x1,0x0,0x0,0x0,0x20,0x1,0x0,0x0,0x0,0x0,0xe00,0xe00,0x10be,};
+	}
+  static final private JJCalls[] jj_2_rtns = new JJCalls[2];
+  static private boolean jj_rescan = false;
+  static private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public pingulangCompiler(java.io.InputStream stream) {
@@ -201,7 +627,8 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -215,7 +642,8 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor. */
@@ -232,7 +660,8 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -250,7 +679,8 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor with generated Token Manager. */
@@ -266,7 +696,8 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -275,7 +706,8 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -285,11 +717,50 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 jj_ntk = -1;
 	 if (token.kind == kind) {
 	   jj_gen++;
+	   if (++jj_gc > 100) {
+		 jj_gc = 0;
+		 for (int i = 0; i < jj_2_rtns.length; i++) {
+		   JJCalls c = jj_2_rtns[i];
+		   while (c != null) {
+			 if (c.gen < jj_gen) c.first = null;
+			 c = c.next;
+		   }
+		 }
+	   }
 	   return token;
 	 }
 	 token = oldToken;
 	 jj_kind = kind;
 	 throw generateParseException();
+  }
+
+  @SuppressWarnings("serial")
+  static private final class LookaheadSuccess extends java.lang.Error {
+    @Override
+    public Throwable fillInStackTrace() {
+      return this;
+    }
+  }
+  static private final LookaheadSuccess jj_ls = new LookaheadSuccess();
+  static private boolean jj_scan_token(int kind) {
+	 if (jj_scanpos == jj_lastpos) {
+	   jj_la--;
+	   if (jj_scanpos.next == null) {
+		 jj_lastpos = jj_scanpos = jj_scanpos.next = token_source.getNextToken();
+	   } else {
+		 jj_lastpos = jj_scanpos = jj_scanpos.next;
+	   }
+	 } else {
+	   jj_scanpos = jj_scanpos.next;
+	 }
+	 if (jj_rescan) {
+	   int i = 0; Token tok = token;
+	   while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
+	   if (tok != null) jj_add_error_token(kind, i);
+	 }
+	 if (jj_scanpos.kind != kind) return true;
+	 if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
+	 return false;
   }
 
 
@@ -322,31 +793,77 @@ public class pingulangCompiler implements pingulangCompilerConstants {
   static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
   static private int[] jj_expentry;
   static private int jj_kind = -1;
+  static private int[] jj_lasttokens = new int[100];
+  static private int jj_endpos;
+
+  static private void jj_add_error_token(int kind, int pos) {
+	 if (pos >= 100) {
+		return;
+	 }
+
+	 if (pos == jj_endpos + 1) {
+	   jj_lasttokens[jj_endpos++] = kind;
+	 } else if (jj_endpos != 0) {
+	   jj_expentry = new int[jj_endpos];
+
+	   for (int i = 0; i < jj_endpos; i++) {
+		 jj_expentry[i] = jj_lasttokens[i];
+	   }
+
+	   for (int[] oldentry : jj_expentries) {
+		 if (oldentry.length == jj_expentry.length) {
+		   boolean isMatched = true;
+
+		   for (int i = 0; i < jj_expentry.length; i++) {
+			 if (oldentry[i] != jj_expentry[i]) {
+			   isMatched = false;
+			   break;
+			 }
+
+		   }
+		   if (isMatched) {
+			 jj_expentries.add(jj_expentry);
+			 break;
+		   }
+		 }
+	   }
+
+	   if (pos != 0) {
+		 jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+	   }
+	 }
+  }
 
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[14];
+	 boolean[] la1tokens = new boolean[45];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 7; i++) {
+	 for (int i = 0; i < 20; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
 			 la1tokens[j] = true;
 		   }
+		   if ((jj_la1_1[i] & (1<<j)) != 0) {
+			 la1tokens[32+j] = true;
+		   }
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 14; i++) {
+	 for (int i = 0; i < 45; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
 		 jj_expentries.add(jj_expentry);
 	   }
 	 }
+	 jj_endpos = 0;
+	 jj_rescan_token();
+	 jj_add_error_token(0, 0);
 	 int[][] exptokseq = new int[jj_expentries.size()][];
 	 for (int i = 0; i < jj_expentries.size(); i++) {
 	   exptokseq[i] = jj_expentries.get(i);
@@ -367,6 +884,47 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 
   /** Disable tracing. */
   static final public void disable_tracing() {
+  }
+
+  static private void jj_rescan_token() {
+	 jj_rescan = true;
+	 for (int i = 0; i < 2; i++) {
+	   try {
+		 JJCalls p = jj_2_rtns[i];
+
+		 do {
+		   if (p.gen > jj_gen) {
+			 jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
+			 switch (i) {
+			   case 0: jj_3_1(); break;
+			   case 1: jj_3_2(); break;
+			 }
+		   }
+		   p = p.next;
+		 } while (p != null);
+
+		 } catch(LookaheadSuccess ls) { }
+	 }
+	 jj_rescan = false;
+  }
+
+  static private void jj_save(int index, int xla) {
+	 JJCalls p = jj_2_rtns[index];
+	 while (p.gen > jj_gen) {
+	   if (p.next == null) { p = p.next = new JJCalls(); break; }
+	   p = p.next;
+	 }
+
+	 p.gen = jj_gen + xla - jj_la; 
+	 p.first = token;
+	 p.arg = xla;
+  }
+
+  static final class JJCalls {
+	 int gen;
+	 Token first;
+	 int arg;
+	 JJCalls next;
   }
 
 }

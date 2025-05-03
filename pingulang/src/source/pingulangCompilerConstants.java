@@ -11,17 +11,67 @@ public interface pingulangCompilerConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int PLUS = 5;
+  int INICIO_PROGRAMA = 7;
   /** RegularExpression Id. */
-  int MINUS = 6;
+  int FIM_PROGRAMA = 8;
   /** RegularExpression Id. */
-  int MULTIPLY = 7;
+  int INICIO_BLOCO = 9;
   /** RegularExpression Id. */
-  int DIVIDE = 8;
+  int FIM_BLOCO = 10;
   /** RegularExpression Id. */
-  int CONSTANT = 9;
+  int PINGU = 11;
   /** RegularExpression Id. */
-  int DIGIT = 10;
+  int INT_TYPE = 12;
+  /** RegularExpression Id. */
+  int FLOAT_TYPE = 13;
+  /** RegularExpression Id. */
+  int BOOL_TYPE = 14;
+  /** RegularExpression Id. */
+  int CHAR_TYPE = 15;
+  /** RegularExpression Id. */
+  int TRUE = 16;
+  /** RegularExpression Id. */
+  int FALSE = 17;
+  /** RegularExpression Id. */
+  int IF = 18;
+  /** RegularExpression Id. */
+  int ELSE = 19;
+  /** RegularExpression Id. */
+  int WHILE = 20;
+  /** RegularExpression Id. */
+  int FOR = 21;
+  /** RegularExpression Id. */
+  int DO = 22;
+  /** RegularExpression Id. */
+  int PRINT = 23;
+  /** RegularExpression Id. */
+  int INPUT = 24;
+  /** RegularExpression Id. */
+  int OP_RELACIONAL = 25;
+  /** RegularExpression Id. */
+  int OP_LOGICO = 26;
+  /** RegularExpression Id. */
+  int OP_ARITMETICO = 27;
+  /** RegularExpression Id. */
+  int OP_IGUAL = 28;
+  /** RegularExpression Id. */
+  int OP_AUMENTO = 29;
+  /** RegularExpression Id. */
+  int OP_DIMINUI = 30;
+  /** RegularExpression Id. */
+  int OP_MULTIPLICA = 31;
+  /** RegularExpression Id. */
+  int OP_DIVIDE = 32;
+  /** RegularExpression Id. */
+  int INTEIRO = 33;
+  /** RegularExpression Id. */
+  int FLOAT = 34;
+  /** RegularExpression Id. */
+  int CHAR = 35;
+  /** RegularExpression Id. */
+  int STRING = 36;
+  /** RegularExpression Id. */
+  int ID = 37;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -30,18 +80,49 @@ public interface pingulangCompilerConstants {
   String[] tokenImage = {
     "<EOF>",
     "\" \"",
-    "\"\\r\"",
     "\"\\t\"",
     "\"\\n\"",
-    "\"+\"",
-    "\"-\"",
-    "\"*\"",
-    "\"/\"",
-    "<CONSTANT>",
-    "<DIGIT>",
-    "\";\"",
+    "\"\\r\"",
+    "<token of kind 5>",
+    "<token of kind 6>",
+    "\"E L\\u00c1 VAMOS N\\u00d3S\"",
+    "\"ISSO \\u00c9 TUDO P-PESSOAL\"",
+    "\"{\"",
+    "\"}\"",
+    "\"pingu\"",
+    "\"florzinha\"",
+    "\"docinho\"",
+    "\"lindinha\"",
+    "\"PENELOPE CHARMOSA\"",
+    "\"A GENTE VAI VIVER\"",
+    "\"A GENTE VAI MORRER\"",
+    "\"SERIA\"",
+    "\"OU SER\\u00c1 QUE N\\u00c3O\"",
+    "\"A EH REPETE\"",
+    "\"FOR\\u00c7A G\"",
+    "\"YABBA DABBA DOO\"",
+    "\"print\"",
+    "\"input\"",
+    "<OP_RELACIONAL>",
+    "<OP_LOGICO>",
+    "<OP_ARITMETICO>",
+    "\"=\"",
+    "\"+=\"",
+    "\"-=\"",
+    "\"*=\"",
+    "\"/=\"",
+    "<INTEIRO>",
+    "<FLOAT>",
+    "<CHAR>",
+    "<STRING>",
+    "<ID>",
+    "\",\"",
     "\"(\"",
     "\")\"",
+    "\"*\"",
+    "\"/\"",
+    "\"%\"",
+    "\"!\"",
   };
 
 }

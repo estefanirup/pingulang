@@ -11,116 +11,265 @@ package source;
 
 public class pingulangCompiler
 {
-  public static void main(String args []) throws ParseException
-  {
+  public static void main(String args[]) throws ParseException {
     pingulangCompiler parser = new pingulangCompiler(System.in);
-    while (true)
-    {
-      System.out.println("Reading from standard input...");
-      System.out.print("Enter an expression like \"1+(2+3)*4;\" :");
-      try
-      {
-        switch (pingulangCompiler.one_line())
-        {
-          case 0 : 
-          System.out.println("OK.");
-          break;
-          case 1 : 
-          System.out.println("Goodbye.");
-          break;
-          default : 
-          break;
-        }
-      }
-      catch (Exception e)
-      {
-        System.out.println("NOK.");
-        System.out.println(e.getMessage());
-        pingulangCompiler.ReInit(System.in);
-      }
-      catch (Error e)
-      {
-        System.out.println("Oops.");
-        System.out.println(e.getMessage());
-        break;
-      }
+    try {
+        parser.Programa();
+        System.out.println("Análise concluída com sucesso! Programa válido.");
+    } catch (ParseException e) {
+        System.out.println("Erro na linha " + e.currentToken.beginLine + ", coluna " + e.currentToken.beginColumn);
+        System.out.println("Token inesperado: " + e.currentToken.image);
+        System.out.println("Mensagem: " + e.getMessage());
     }
-  }
+}
 }
 
 PARSER_END(pingulangCompiler)
 
-SKIP :
-{
-  " "
-| "\r"
-| "\t"
-| "\n"
+SKIP : {
+    < #WHITESPACE >
+  | < "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >
+  | < "/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/" >
 }
 
-TOKEN : /* OPERATORS */
-{
-  < PLUS : "+" >
-| < MINUS : "-" >
-| < MULTIPLY : "*" >
-| < DIVIDE : "/" >
+/* TOKENS PRINCIPAIS */
+TOKEN : {
+    < INICIO_PROGRAMA: "E LÁ VAMOS NÓS" >
+  | < FIM_PROGRAMA: "ISSO É TUDO P-PESSOAL" >
+  | < INICIO_BLOCO: "{" >
+  | < FIM_BLOCO: "}" >
+  | < PINGU: "pingu" >
 }
 
-TOKEN :
-{
-  < CONSTANT : (< DIGIT >)+ >
-| < #DIGIT : [ "0"-"9" ] >
+/* TIPOS DE DADOS */
+TOKEN : {
+    < INT_TYPE: "florzinha" >
+  | < FLOAT_TYPE: "docinho" >
+  | < BOOL_TYPE: "lindinha" >
+  | < CHAR_TYPE: "PENELOPE CHARMOSA" >
+  | < TRUE: "A GENTE VAI VIVER" >
+  | < FALSE: "A GENTE VAI MORRER" >
 }
 
-int one_line() :
+/* ESTRUTURAS DE CONTROLE*/
+TOKEN : {
+    < IF: "SERIA" >
+  | < ELSE: "OU SERÁ QUE NÃO" >
+  | < WHILE: "A EH REPETE" >
+  | < FOR: "FORÇA G" >
+  | < DO: "YABBA DABBA DOO" >
+}
+
+/* FUNÇÕES E OPERADORES */
+TOKEN : {
+    < PRINT: "print" >
+  | < INPUT: "input" >
+  | < OP_RELACIONAL: "==" | "!=" | ">" | "<" | ">=" | "<=" >
+  | < OP_LOGICO: "&&" | "||" >
+  | < OP_ARITMETICO: "+" | "-" | "*" | "/" | "%" >
+  | < OP_IGUAL: "=" >
+  | < OP_AUMENTO: "+=" >
+  | < OP_DIMINUI: "-=" >
+  | < OP_MULTIPLICA: "*=" >
+  | < OP_DIVIDE: "/=" >
+}
+
+/* LITERAIS E IDENTIFICADORES */
+TOKEN : {
+    < INTEIRO: (["0"-"9"])+ >
+  | < FLOAT: (["0"-"9"])+ "." (["0"-"9"])+ >
+  | < CHAR: "'" (~["'","\\"] | "\\" ["n","t","b","r","f","\\","'","\""]) "'" >
+  | < STRING: "\"" (~["\"","\\"] | "\\" ["n","t","b","r","f","\\","'","\""])* "\"" >
+  | < ID: ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","0"-"9","_"])* >
+}
+
+TOKEN : {
+    < #WHITESPACE: " " | "\t" | "\n" | "\r" >
+}
+
+/* REGRAS GRAMATICAIS */
+void Programa() :
 {}
 {
-  sum() ";"
-  {
-    return 0;
-  }
-| ";"
-  {
-    return 1;
-  }
+    <INICIO_PROGRAMA>
+    Declaracoes()
+    Comandos()
+    <FIM_PROGRAMA>
 }
 
-void sum() :
+void Declaracoes() :
 {}
 {
-  term()
-  (
+    ( Declaracao() )*
+}
+
+void Declaracao() :
+{}
+{
     (
-      < PLUS >
-    | < MINUS >
+      <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE>
     )
-    term()
-  )*
+    ListaVariaveis()
+    <PINGU>
 }
 
-void term() :
+void DeclaracaoSemPingu() :
 {}
 {
-  unary()
-  (
     (
-      < MULTIPLY >
-    | < DIVIDE >
+      <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE>
     )
-    unary()
-  )*
+    ListaVariaveis()
 }
 
-void unary() :
+void ListaVariaveis() :
 {}
 {
-  < MINUS > element()
-| element()
+    <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )?
+    ( "," <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )? )*
 }
 
-void element() :
+
+void Variavel() :
 {}
 {
-  < CONSTANT >
-| "(" sum() ")"
+    <ID>
+    (
+        ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> )
+        Expressao()
+    )?
+}
+
+
+/*Incertos*/
+
+/* REGRAS DE COMANDOS */
+void Comandos() :
+{}
+{
+    ( Comando() )*
+}
+
+void Comando() :
+{}
+{
+    LOOKAHEAD(2)
+    Condicional()
+    |
+    Repeticao()
+    |
+    Atribuicao() <PINGU>
+    |
+    EntradaSaida() <PINGU>
+    |
+    Bloco()
+}
+
+/* ATRIBUIÇÕES */
+void Atribuicao() :
+{}
+{
+    <ID> ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao()
+}
+
+/* ESTRUTURAS CONDICIONAIS */
+void Condicional() :
+{}
+{
+    <IF> "(" Expressao() ")" Comando()
+    [ LOOKAHEAD(1) <ELSE> Comando() ]
+}
+
+/* ESTRUTURAS DE REPETIÇÃO */
+void Repeticao() :
+{}
+{
+    While() | For() | DoWhile()
+}
+
+void While() :
+{}
+{
+    <WHILE> "(" Expressao() ")" Comando()
+}
+
+void For() :
+{}
+{
+    <FOR> "("
+    (
+      LOOKAHEAD( <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE> )
+      DeclaracaoSemPingu()
+    |
+      Atribuicao()
+    )
+    "," Expressao()
+    "," Atribuicao()
+    ")" Comando()
+}
+
+void DoWhile() :
+{}
+{
+    <DO> Comando() <WHILE> "(" Expressao() ")" <PINGU>
+}
+
+/* ENTRADA/SAÍDA */
+void EntradaSaida() :
+{}
+{
+    <PRINT> "(" Expressao() ")" 
+    | <INPUT> "(" <ID> ")"
+}
+
+/* BLOCOS */
+void Bloco() :
+{}
+{
+    <INICIO_BLOCO> Comandos() <FIM_BLOCO>
+}
+
+/* EXPRESSÕES */
+void Expressao() :
+{}
+{
+    ExpressaoLogica()
+}
+
+void ExpressaoLogica() :
+{}
+{
+    ExpressaoRelacional() ( <OP_LOGICO> ExpressaoRelacional() )*
+}
+
+void ExpressaoRelacional() :
+{}
+{
+    ExpressaoAritmetica() ( <OP_RELACIONAL> ExpressaoAritmetica() )*
+}
+
+void ExpressaoAritmetica() :
+{}
+{
+    Termo() ( <OP_ARITMETICO> Termo() )*
+}
+
+void Termo() :
+{}
+{
+    Fator() ( ("*" | "/" | "%") Fator() )*
+}
+
+void Fator() :
+{}
+{
+    <ID>
+  | <INTEIRO>
+  | <FLOAT>
+  | <TRUE>
+  | <FALSE>
+  | <CHAR>
+  | <STRING>
+  | "(" Expressao() ")"
+  | "!" Fator()
 }
