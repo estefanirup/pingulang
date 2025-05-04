@@ -155,7 +155,7 @@ void Comando() :
     |
     Repeticao()
     |
-    Atribuicao() 
+    Atribuicao()  <PINGU>
     |
     EntradaSaida() <PINGU>
     |
@@ -172,7 +172,6 @@ void Atribuicao() :
         |
         ( <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao()
     )
-    <PINGU>
 }
 
 /* ESTRUTURAS CONDICIONAIS */
@@ -260,7 +259,7 @@ void ExpressaoAritmetica() :
 void Termo() :
 {}
 {
-   Fator() ( <OP_ARITMETICO> Fator() )*
+    Fator() ( <OP_ARITMETICO> Fator() )*
 }
 
 void Fator() :
