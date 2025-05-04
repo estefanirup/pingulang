@@ -52,8 +52,10 @@ ISSO É TUDO P-PESSOAL
 ```
 E LÁ VAMOS NÓS
 florzinha i = 0 pingu
+florzinha j = 0 pingu  // Declarar j fora do loop
+
 A EH REPETE (i < 3) {
-    florzinha j = 0 pingu
+    j = 0 pingu  // Apenas reatribuir, não declarar
     A EH REPETE (j < 2) {
         print(i*10 + j) pingu
         j += 1 pingu
