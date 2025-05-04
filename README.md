@@ -1,96 +1,208 @@
-# 🐧 Pingulang - Exemplos Completos
+# 🐧 Pingulang - Exemplos Usados na Apresentação
 
-## 1. OPERAÇÕES BÁSICAS
+## 1. Marcadores de início e fim do programa
+
 ```pingu
-E LÁ VAMOS NÓS
-florzinha a = 5, b = 3 pingu
-florzinha soma = a + b pingu
-florzinha subtracao = a - b pingu
-florzinha divisao = a / b pingu
-florzinha multiplicacao = a * b pingu
-print(soma) pingu
-print(subtracao) pingu
-print(divisao) pingu
-print(multiplicacao) pingu
-ISSO É TUDO P-PESSOAL
+E LA VAMOS NOS
+ISSO EH TUDO P-PESSOAL
 ```
 
-## 2. CONDICIONAIS NUMÉRICAS
 ```
-E LÁ VAMOS NÓS
-florzinha x = 10, y = 5 pingu
-SERIA (x > y) {
-    print("x maior") pingu
-} OU SERÁ QUE NÃO {
-    print("y maior") pingu
+E LA VAMOS NOS
+IO x = 10 PINGU
+ISSO EH TUDO P-PESSOAL
+```
+## 2. Tipos de dados
+```
+E LA VAMOS NOS
+IO idade = 25 PINGU                     
+FLORZINHA preco = 9.99 PINGU           
+SID eh_valido = A GENTE VAI VIVER PINGU  
+PENELOPE CHARMOSA letra = 'A' PINGU      
+ISSO EH TUDO P-PESSOAL
+```
+
+## 3. Comandos e Atribuições
+
+### Atribuição válida
+```
+E LA VAMOS NOS
+IO a = 10 PINGU                     
+FLORZINHA b = a + 5.5 PINGU         
+SID c = A GENTE VAI VIVER PINGU     
+a += 3 PINGU                        
+ISSO EH TUDO P-PESSOAL
+```
+
+```XXX
+E LA VAMOS NOS
+IO a, b = 10 PINGU
+a = b PINGU             
+ISSO EH TUDO P-PESSOAL
+```
+
+```
+E LA VAMOS NOS
+IO x = (10 + (5 * 2)) / (3 % 2) PINGU 
+ISSO EH TUDO P-PESSOAL
+```
+
+### If-else válido
+```
+E LA VAMOS NOS
+SID cond = A GENTE VAI VIVER PINGU
+SERIA (cond) {
+    MOSTLA("Passei na matéria do Jorge")PINGU
+} OU SERA QUE NAO {
+    MOSTLA("Seloco, deu ruim")PINGU
 }
-ISSO É TUDO P-PESSOAL
+ISSO EH TUDO P-PESSOAL
 ```
 
-## 3. CONDICIONAIS COM STRINGS
+### While
 ```
-E LÁ VAMOS NÓS
-florzinha nome = "João" pingu
-SERIA (nome == "João") {
-    print("Nome João") pingu
-} OU SERÁ QUE NÃO {
-    print("Outro nome") pingu
+E LA VAMOS NOS
+IO i = 0 PINGU
+A EH REPETE (i < 10) {
+    i += 1 PINGU
 }
-ISSO É TUDO P-PESSOAL
+ISSO EH TUDO P-PESSOAL
+```
+### For
+```
+E LA VAMOS NOS
+IO var = 10 PINGU
+
 ```
 
-## 4. LOOP FOR
-```
-E LÁ VAMOS NÓS
-FORÇA G (florzinha i = 0, i < 5, i += 1) {
-    print(i) pingu
-}
-ISSO É TUDO P-PESSOAL
-```
 
-## 5. LOOPS ANINHADOS
+### Blocos alinhados
 ```
-E LÁ VAMOS NÓS
-florzinha i = 0 pingu
-florzinha j = 0 pingu  // Declarar j fora do loop
-
-A EH REPETE (i < 3) {
-    j = 0 pingu  // Apenas reatribuir, não declarar
-    A EH REPETE (j < 2) {
-        print(i*10 + j) pingu
-        j += 1 pingu
+E LA VAMOS NOS
+IO x = 1 PINGU
+{
+    MOSTLA("Acho que X = 1")PINGU
+    {
+        MOSTLA("Blocos alinhados! Que INSANO")PINGU       
     }
-    i += 1 pingu
 }
-ISSO É TUDO P-PESSOAL
+ISSO EH TUDO P-PESSOAL
 ```
 
-## 6. EXEMPLO COMPLETO
+### DO
 ```
-E LÁ VAMOS NÓS
-florzinha cont = 0 pingu
-docinho total = 0 pingu
-FORÇA G (florzinha i = 1, i <= 10, i += 1) {
-    SERIA (i % 2 == 0) {
-        total += i pingu
-        cont += 1 pingu
-        print("Par: " + i) pingu
-    } OU SERÁ QUE NÃO {
-        print("Ímpar: " + i) pingu
-    }
-}
-print("Total pares: " + cont) pingu
-print("Soma pares: " + total) pingu
-ISSO É TUDO P-PESSOAL
-```
+E LA VAMOS NOS
 
-## 7. DO-WHILE
-```
-E LÁ VAMOS NÓS
-florzinha tent = 0 pingu
+IO contador = 0 PINGU
+
 YABBA DABBA DOO {
-    print("Tentativa: " + tent) pingu
-    tent += 1 pingu
-} A EH REPETE (tent < 3) pingu
-ISSO É TUDO P-PESSOAL
+    MOSTLA(contador) PINGU
+    contador += 1 PINGU
+} A EH REPETE (contador < 5) PINGU
+
+ISSO EH TUDO P-PESSOAL
+```
+
+## 4. Funções de entrada e saída
+```
+E LA VAMOS NOS
+
+IO idade PINGU
+FLORZINHA altura PINGU
+PENELOPE CHARMOSA inicial PINGU
+
+MOSTLA("Digite sua idade: ") PINGU
+ESCLEVE(idade) PINGU
+
+MOSTLA("Digite sua altura: ") PINGU
+ESCLEVE(altura) PINGU
+
+MOSTLA("Digite sua inicial: ") PINGU
+ESCLEVE(inicial) PINGU
+
+MOSTLA("Voce tem ") PINGU
+MOSTLA(idade) PINGU
+MOSTLA(" anos e ") PINGU
+MOSTLA(altura) PINGU
+MOSTLA("m de altura") PINGU
+MOSTLA("Inicial: ") PINGU
+MOSTLA(inicial) PINGU
+
+ISSO EH TUDO P-PESSOAL
+```
+
+## 5. Operações e expressões
+
+### Operação aritmética
+```
+E LA VAMOS NOS
+IO a = 10 PINGU
+IO b = 5 PINGU
+FLORZINHA c = 2.5 PINGU
+MOSTLA(a + b) PINGU       
+MOSTLA(a - c) PINGU       
+MOSTLA(b * 3) PINGU      
+MOSTLA(a / 2) PINGU      
+MOSTLA((a + b) * c - 1) PINGU  
+a += b PINGU
+MOSTLA(a) PINGU           
+c *= 2 PINGU
+MOSTLA(c) PINGU           
+ISSO EH TUDO P-PESSOAL
+```
+
+### Operação relacional e lógica
+
+```
+E LA VAMOS NOS
+
+SID x = A GENTE VAI VIVER PINGU  
+SID y = A GENTE VAI MORRER PINGU  
+IO n1 = 10 PINGU
+IO n2 = 20 PINGU
+
+// Operações relacionais
+MOSTLA(n1 < n2) PINGU     
+MOSTLA(n1 == 10) PINGU    
+MOSTLA(n2 != 20) PINGU    
+
+// Operações lógicas
+MOSTLA(x && y) PINGU      
+MOSTLA(x || y) PINGU      
+MOSTLA(!y) PINGU          
+
+// Combinação
+MOSTLA((n1 < n2) && x) PINGU 
+
+ISSO EH TUDO P-PESSOAL
+```
+
+### 6. Tratamento de erros
+
+## Exemplo de erro léxico (token inválido)
+```
+E LA VAMOS NOS
+IO x = 123abc PINGU  
+ISSO EH TUDO P-PESSOAL
+```
+
+## Exemplo de erro sintático (Falta PINGU)
+```
+E LA VAMOS NOS
+IO x = 123  
+ISSO EH TUDO P-PESSOAL
+```
+
+## Exemplo de erro sintático (condicional mal informado)
+```
+E LA VAMOS NOS
+SERIA (x == 123  
+    MOSTLA(x) PINGU
+ISSO EH TUDO P-PESSOAL
+```
+## Exemplo de erro léxico (símbolo inválido)
+```
+E LA VAMOS NOS
+IO x @ 123 PINGU 
+ISSO EH TUDO P-PESSOAL
 ```
