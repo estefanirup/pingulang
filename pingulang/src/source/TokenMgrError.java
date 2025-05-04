@@ -103,12 +103,12 @@ public class TokenMgrError extends Error
    * Note: You can customize the lexical error message by modifying this method.
    */
   protected static String LexicalErr(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, int curChar) {
-    return("Lexical error at line " + //
-          errorLine + ", column " + //
-          errorColumn + ".  Encountered: " + //
+    return("Erro léxico na linha " + //
+          errorLine + ", coluna " + //
+          errorColumn + ".  Encontrada: " + //
           (EOFSeen ? "<EOF>" : ("'" + addEscapes(String.valueOf(curChar)) + "' (" + curChar + "),")) + //
-          (errorAfter == null || errorAfter.length() == 0 ? "" : " after prefix \"" + addEscapes(errorAfter) + "\"")) + //
-          (lexState == 0 ? "" : " (in lexical state " + lexState + ")");
+          (errorAfter == null || errorAfter.length() == 0 ? "" : " após prefixo \"" + addEscapes(errorAfter) + "\"")) + //
+          (lexState == 0 ? "" : " (em estado léxico " + lexState + ")");
   }
 
   /**
@@ -120,10 +120,27 @@ public class TokenMgrError extends Error
    *
    * from this method for such cases in the release version of your parser.
    */
+  private int errorLine;
+  private int errorColumn;
+  private char errorChar;
+  private String diagnosticMessage;
+
+  public TokenMgrError(String diagnosticMessage, int errorLine, int errorColumn, char errorChar) {
+      super(diagnosticMessage);
+      this.diagnosticMessage = diagnosticMessage;
+      this.errorLine = errorLine;
+      this.errorColumn = errorColumn;
+      this.errorChar = errorChar;
+  }
+
+  
   @Override
   public String getMessage() {
-    return super.getMessage();
+      return "Erro léxico na linha " + errorLine + ", coluna " + errorColumn + ":\n"
+           + "    Caractere inválido encontrado: '" + addEscapes(String.valueOf(errorChar)) + "'\n"
+           + "    " + diagnosticMessage;
   }
+
 
   /*
    * Constructors of various flavors follow.
@@ -140,8 +157,14 @@ public class TokenMgrError extends Error
   }
 
   /** Full Constructor. */
-  public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, int curChar, int reason) {
-    this(LexicalErr(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
-  }
+  public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn,
+          String errorAfter, int curCharInt, int reason) {
+super();
+this.errorLine = errorLine;
+this.errorColumn = errorColumn;
+this.errorChar = (char) curCharInt;  // conversão segura
+this.diagnosticMessage = "Símbolo não reconhecido pelo compilador.";
+}
+
 }
 /* JavaCC - OriginalChecksum=63d95df4b7680e20b6c7546a66d97dc5 (do not edit this line) */

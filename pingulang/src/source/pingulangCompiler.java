@@ -9,10 +9,12 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         parser.Programa();
         System.out.println("Analise concluda com sucesso! Programa valido.");
     } catch (ParseException e) {
-        System.out.println("Erro na linha " + e.currentToken.beginLine + ", coluna " + e.currentToken.beginColumn);
-        System.out.println("Token inesperado: " + e.currentToken.image);
-        System.out.println("Mensagem: " + e.getMessage());
-    }
+            System.err.println("Erro de sintaxe:");
+            System.err.println(e.getMessage());
+        } catch (TokenMgrError e) {
+            System.err.println("Erro l\u00e9xico:");
+            System.err.println(e.getMessage());
+        }
 }
 
 /* REGRAS GRAMATICAIS */
@@ -618,7 +620,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
     return false;
   }
 
-  static private boolean jj_3R_Condicional_176_5_8()
+  static private boolean jj_3R_Condicional_178_5_8()
  {
     if (jj_scan_token(IF)) return true;
     if (jj_scan_token(36)) return true;
@@ -627,7 +629,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 
   static private boolean jj_3_1()
  {
-    if (jj_3R_Condicional_176_5_8()) return true;
+    if (jj_3R_Condicional_178_5_8()) return true;
     return false;
   }
 

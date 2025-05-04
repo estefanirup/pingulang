@@ -17,10 +17,12 @@ public class pingulangCompiler
         parser.Programa();
         System.out.println("Analise concluda com sucesso! Programa valido.");
     } catch (ParseException e) {
-        System.out.println("Erro na linha " + e.currentToken.beginLine + ", coluna " + e.currentToken.beginColumn);
-        System.out.println("Token inesperado: " + e.currentToken.image);
-        System.out.println("Mensagem: " + e.getMessage());
-    }
+            System.err.println("Erro de sintaxe:");
+            System.err.println(e.getMessage());
+        } catch (TokenMgrError e) {
+            System.err.println("Erro léxico:");
+            System.err.println(e.getMessage());
+        }
 }
 }
 
