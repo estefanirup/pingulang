@@ -171,10 +171,10 @@ void Atribuicao() :
 
 /* ESTRUTURAS CONDICIONAIS */
 void Condicional() :
-{}
+{ }
 {
-    <IF> "(" Expressao() ")" Comando()
-    [ LOOKAHEAD(1) <ELSE> Comando() ]
+    <IF> "(" Expressao() ")" Comando() 
+    [ LOOKAHEAD(2) <ELSE> Comando() ]
 }
 
 /* ESTRUTURAS DE REPETIÇÃO */
