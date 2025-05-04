@@ -155,7 +155,7 @@ void Comando() :
     |
     Repeticao()
     |
-    Atribuicao() <PINGU>
+    Atribuicao() 
     |
     EntradaSaida() <PINGU>
     |
@@ -166,7 +166,13 @@ void Comando() :
 void Atribuicao() :
 {}
 {
-    <ID> ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao()
+    <ID> 
+    (
+        <OP_IGUAL> Expressao()
+        |
+        ( <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao()
+    )
+    <PINGU>
 }
 
 /* ESTRUTURAS CONDICIONAIS */
