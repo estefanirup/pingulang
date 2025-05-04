@@ -116,9 +116,6 @@ public interface pingulangCompilerConstants {
     "\",\"",
     "\"(\"",
     "\")\"",
-    "\"*\"",
-    "\"/\"",
-    "\"%\"",
     "\"!\"",
   };
 

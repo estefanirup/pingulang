@@ -514,9 +514,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
     label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 38:
-      case 39:
-      case 40:{
+      case OP_ARITMETICO:{
         ;
         break;
         }
@@ -524,24 +522,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         jj_la1[20] = jj_gen;
         break label_7;
       }
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 38:{
-        jj_consume_token(38);
-        break;
-        }
-      case 39:{
-        jj_consume_token(39);
-        break;
-        }
-      case 40:{
-        jj_consume_token(40);
-        break;
-        }
-      default:
-        jj_la1[21] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
+      jj_consume_token(OP_ARITMETICO);
       Fator();
     }
 }
@@ -582,13 +563,13 @@ public class pingulangCompiler implements pingulangCompilerConstants {
       jj_consume_token(37);
       break;
       }
-    case 41:{
-      jj_consume_token(41);
+    case 38:{
+      jj_consume_token(38);
       Fator();
       break;
       }
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[21] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -796,7 +777,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
   static private Token jj_scanpos, jj_lastpos;
   static private int jj_la;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[23];
+  static final private int[] jj_la1 = new int[22];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -804,10 +785,10 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x1e00,0x1e00,0x1e00,0x3e000000,0x3e000000,0x0,0x3e000000,0x3e000000,0x3e000000,0x3e000000,0x3e8040,0x3e0040,0x3c000000,0x3e000000,0xe0000,0x0,0x300000,0x800000,0x400000,0x1000000,0x0,0x0,0xc0006000,};
+	   jj_la1_0 = new int[] {0x1e00,0x1e00,0x1e00,0x3e000000,0x3e000000,0x0,0x3e000000,0x3e000000,0x3e000000,0x3e000000,0x3e8040,0x3e0040,0x3c000000,0x3e000000,0xe0000,0x0,0x300000,0x800000,0x400000,0x1000000,0x1000000,0xc0006000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x0,0x0,0x4,0x4,0x0,0x0,0x0,0x4,0x0,0x0,0x0,0x0,0x1c0,0x1c0,0x217,};
+	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x0,0x0,0x4,0x4,0x0,0x0,0x0,0x4,0x0,0x0,0x0,0x0,0x0,0x57,};
 	}
   static final private JJCalls[] jj_2_rtns = new JJCalls[3];
   static private boolean jj_rescan = false;
@@ -831,7 +812,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 23; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -846,7 +827,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 23; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -864,7 +845,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 23; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -883,7 +864,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 23; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -900,7 +881,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 23; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -910,7 +891,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 23; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1041,12 +1022,12 @@ public class pingulangCompiler implements pingulangCompilerConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[42];
+	 boolean[] la1tokens = new boolean[39];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 23; i++) {
+	 for (int i = 0; i < 22; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1058,7 +1039,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 42; i++) {
+	 for (int i = 0; i < 39; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
