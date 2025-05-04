@@ -15,7 +15,7 @@ public class pingulangCompiler
     pingulangCompiler parser = new pingulangCompiler(System.in);
     try {
         parser.Programa();
-        System.out.println("Análise concluída com sucesso! Programa válido.");
+        System.out.println("Analise concluda com sucesso! Programa valido.");
     } catch (ParseException e) {
         System.out.println("Erro na linha " + e.currentToken.beginLine + ", coluna " + e.currentToken.beginColumn);
         System.out.println("Token inesperado: " + e.currentToken.image);
@@ -27,25 +27,26 @@ public class pingulangCompiler
 PARSER_END(pingulangCompiler)
 
 SKIP : {
-    < #WHITESPACE >
+    < " " | "\t" | "\n" | "\r" >
   | < "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >
   | < "/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/" >
 }
 
+
 /* TOKENS PRINCIPAIS */
 TOKEN : {
-    < INICIO_PROGRAMA: "E LÁ VAMOS NÓS" >
-  | < FIM_PROGRAMA: "ISSO É TUDO P-PESSOAL" >
+    < INICIO_PROGRAMA: "E LA VAMOS NOS" >
+  | < FIM_PROGRAMA: "ISSO EH TUDO P-PESSOAL" >
   | < INICIO_BLOCO: "{" >
   | < FIM_BLOCO: "}" >
-  | < PINGU: "pingu" >
+  | < PINGU: "PINGU" >
 }
 
 /* TIPOS DE DADOS */
 TOKEN : {
-    < INT_TYPE: "florzinha" >
-  | < FLOAT_TYPE: "docinho" >
-  | < BOOL_TYPE: "lindinha" >
+    < INT_TYPE: "IO" >
+  | < FLOAT_TYPE: "FLORZINHA" >
+  | < BOOL_TYPE: "SID" >
   | < CHAR_TYPE: "PENELOPE CHARMOSA" >
   | < TRUE: "A GENTE VAI VIVER" >
   | < FALSE: "A GENTE VAI MORRER" >
@@ -54,16 +55,16 @@ TOKEN : {
 /* ESTRUTURAS DE CONTROLE*/
 TOKEN : {
     < IF: "SERIA" >
-  | < ELSE: "OU SERÁ QUE NÃO" >
+  | < ELSE: "OU SERA QUE NAO" >
   | < WHILE: "A EH REPETE" >
-  | < FOR: "FORÇA G" >
+  | < FOR: "FORCA G" >
   | < DO: "YABBA DABBA DOO" >
 }
 
 /* FUNÇÕES E OPERADORES */
 TOKEN : {
-    < PRINT: "print" >
-  | < INPUT: "input" >
+    < PRINT: "MOSTLA" >
+  | < INPUT: "ESCLEVE" >
   | < OP_RELACIONAL: "==" | "!=" | ">" | "<" | ">=" | "<=" >
   | < OP_LOGICO: "&&" | "||" >
   | < OP_ARITMETICO: "+" | "-" | "*" | "/" | "%" >
@@ -80,11 +81,7 @@ TOKEN : {
   | < FLOAT: (["0"-"9"])+ "." (["0"-"9"])+ >
   | < CHAR: "'" (~["'","\\"] | "\\" ["n","t","b","r","f","\\","'","\""]) "'" >
   | < STRING: "\"" (~["\"","\\"] | "\\" ["n","t","b","r","f","\\","'","\""])* "\"" >
-  | < ID: ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","0"-"9","_"])* >
-}
-
-TOKEN : {
-    < #WHITESPACE: " " | "\t" | "\n" | "\r" >
+  | < ID: ["a"-"z"] (["a"-"z","A"-"Z","0"-"9","_"])* >
 }
 
 /* REGRAS GRAMATICAIS */

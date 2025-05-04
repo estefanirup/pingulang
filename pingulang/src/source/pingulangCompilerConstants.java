@@ -11,67 +11,67 @@ public interface pingulangCompilerConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int INICIO_PROGRAMA = 7;
+  int INICIO_PROGRAMA = 4;
   /** RegularExpression Id. */
-  int FIM_PROGRAMA = 8;
+  int FIM_PROGRAMA = 5;
   /** RegularExpression Id. */
-  int INICIO_BLOCO = 9;
+  int INICIO_BLOCO = 6;
   /** RegularExpression Id. */
-  int FIM_BLOCO = 10;
+  int FIM_BLOCO = 7;
   /** RegularExpression Id. */
-  int PINGU = 11;
+  int PINGU = 8;
   /** RegularExpression Id. */
-  int INT_TYPE = 12;
+  int INT_TYPE = 9;
   /** RegularExpression Id. */
-  int FLOAT_TYPE = 13;
+  int FLOAT_TYPE = 10;
   /** RegularExpression Id. */
-  int BOOL_TYPE = 14;
+  int BOOL_TYPE = 11;
   /** RegularExpression Id. */
-  int CHAR_TYPE = 15;
+  int CHAR_TYPE = 12;
   /** RegularExpression Id. */
-  int TRUE = 16;
+  int TRUE = 13;
   /** RegularExpression Id. */
-  int FALSE = 17;
+  int FALSE = 14;
   /** RegularExpression Id. */
-  int IF = 18;
+  int IF = 15;
   /** RegularExpression Id. */
-  int ELSE = 19;
+  int ELSE = 16;
   /** RegularExpression Id. */
-  int WHILE = 20;
+  int WHILE = 17;
   /** RegularExpression Id. */
-  int FOR = 21;
+  int FOR = 18;
   /** RegularExpression Id. */
-  int DO = 22;
+  int DO = 19;
   /** RegularExpression Id. */
-  int PRINT = 23;
+  int PRINT = 20;
   /** RegularExpression Id. */
-  int INPUT = 24;
+  int INPUT = 21;
   /** RegularExpression Id. */
-  int OP_RELACIONAL = 25;
+  int OP_RELACIONAL = 22;
   /** RegularExpression Id. */
-  int OP_LOGICO = 26;
+  int OP_LOGICO = 23;
   /** RegularExpression Id. */
-  int OP_ARITMETICO = 27;
+  int OP_ARITMETICO = 24;
   /** RegularExpression Id. */
-  int OP_IGUAL = 28;
+  int OP_IGUAL = 25;
   /** RegularExpression Id. */
-  int OP_AUMENTO = 29;
+  int OP_AUMENTO = 26;
   /** RegularExpression Id. */
-  int OP_DIMINUI = 30;
+  int OP_DIMINUI = 27;
   /** RegularExpression Id. */
-  int OP_MULTIPLICA = 31;
+  int OP_MULTIPLICA = 28;
   /** RegularExpression Id. */
-  int OP_DIVIDE = 32;
+  int OP_DIVIDE = 29;
   /** RegularExpression Id. */
-  int INTEIRO = 33;
+  int INTEIRO = 30;
   /** RegularExpression Id. */
-  int FLOAT = 34;
+  int FLOAT = 31;
   /** RegularExpression Id. */
-  int CHAR = 35;
+  int CHAR = 32;
   /** RegularExpression Id. */
-  int STRING = 36;
+  int STRING = 33;
   /** RegularExpression Id. */
-  int ID = 37;
+  int ID = 34;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -79,30 +79,27 @@ public interface pingulangCompilerConstants {
   /** Literal token values. */
   String[] tokenImage = {
     "<EOF>",
-    "\" \"",
-    "\"\\t\"",
-    "\"\\n\"",
-    "\"\\r\"",
-    "<token of kind 5>",
-    "<token of kind 6>",
-    "\"E L\\u00c1 VAMOS N\\u00d3S\"",
-    "\"ISSO \\u00c9 TUDO P-PESSOAL\"",
+    "<token of kind 1>",
+    "<token of kind 2>",
+    "<token of kind 3>",
+    "\"E LA VAMOS NOS\"",
+    "\"ISSO EH TUDO P-PESSOAL\"",
     "\"{\"",
     "\"}\"",
-    "\"pingu\"",
-    "\"florzinha\"",
-    "\"docinho\"",
-    "\"lindinha\"",
+    "\"PINGU\"",
+    "\"IO\"",
+    "\"FLORZINHA\"",
+    "\"SID\"",
     "\"PENELOPE CHARMOSA\"",
     "\"A GENTE VAI VIVER\"",
     "\"A GENTE VAI MORRER\"",
     "\"SERIA\"",
-    "\"OU SER\\u00c1 QUE N\\u00c3O\"",
+    "\"OU SERA QUE NAO\"",
     "\"A EH REPETE\"",
-    "\"FOR\\u00c7A G\"",
+    "\"FORCA G\"",
     "\"YABBA DABBA DOO\"",
-    "\"print\"",
-    "\"input\"",
+    "\"MOSTLA\"",
+    "\"ESCLEVE\"",
     "<OP_RELACIONAL>",
     "<OP_LOGICO>",
     "<OP_ARITMETICO>",
