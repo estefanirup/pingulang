@@ -177,30 +177,30 @@ MOSTLA((n1 < n2) && x) PINGU
 ISSO EH TUDO P-PESSOAL
 ```
 
-### 6. Tratamento de erros
+## 6. Tratamento de erros
 
-## Exemplo de erro léxico (token inválido)
+### Exemplo de erro léxico (token inválido)
 ```
 E LA VAMOS NOS
 IO x = 123abc PINGU  
 ISSO EH TUDO P-PESSOAL
 ```
 
-## Exemplo de erro sintático (Falta PINGU)
+### Exemplo de erro sintático (Falta PINGU)
 ```
 E LA VAMOS NOS
 IO x = 123  
 ISSO EH TUDO P-PESSOAL
 ```
 
-## Exemplo de erro sintático (condicional mal informado)
+### Exemplo de erro sintático (condicional mal informado)
 ```
 E LA VAMOS NOS
 SERIA (x == 123  
     MOSTLA(x) PINGU
 ISSO EH TUDO P-PESSOAL
 ```
-## Exemplo de erro léxico (símbolo inválido)
+### Exemplo de erro léxico (símbolo inválido)
 ```
 E LA VAMOS NOS
 IO x @ 123 PINGU 
