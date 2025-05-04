@@ -71,8 +71,27 @@ ISSO EH TUDO P-PESSOAL
 ### For
 ```
 E LA VAMOS NOS
-IO var = 10 PINGU
-
+IO i PINGU            
+IO j PINGU            
+FLORZINHA x PINGU     
+FORCA G (i = 0, i < 5, i += 1) {
+    MOSTLA("Contagem: ") PINGU
+    MOSTLA(i) PINGU
+}
+FORCA G (j = 10, j > 0, j -= 2) {
+    MOSTLA("Decrescendo: ") PINGU
+    MOSTLA(j) PINGU
+}
+x = 0.5 PINGU
+FORCA G (x = 0.5, x < 3.0, x += 0.5) {
+    MOSTLA("Float: ") PINGU
+    MOSTLA(x) PINGU
+}
+FORCA G (i = 0, i < 10 && i != 5, i += 1) {
+    MOSTLA("Condição composta: ") PINGU
+    MOSTLA(i) PINGU
+}
+ISSO EH TUDO P-PESSOAL
 ```
 
 
