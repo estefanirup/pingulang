@@ -3,17 +3,21 @@
 package source;
 
 public class pingulangCompiler implements pingulangCompilerConstants {
-  public static void main(String args[]) throws ParseException {
-    pingulangCompiler parser = new pingulangCompiler(System.in);
-    try {
-        parser.Programa();
-        System.out.println("An\u00e1lise conclu\u00edda com sucesso! Programa v\u00e1lido.");
-    } catch (ParseException e) {
-        System.out.println("Erro na linha " + e.currentToken.beginLine + ", coluna " + e.currentToken.beginColumn);
-        System.out.println("Token inesperado: " + e.currentToken.image);
-        System.out.println("Mensagem: " + e.getMessage());
-    }
-}
+	public static void main(String args[]) throws ParseException {
+	    pingulangCompiler parser = new pingulangCompiler(System.in);
+	    try {
+	        parser.Programa();
+	        System.out.println("Análise concluída com sucesso! Programa válido.");
+	    } catch (ParseException e) {
+	        System.err.println("\nERRO DE SINTAXE:");
+	        System.err.println(e.getMessage());
+	        System.err.println("Token encontrado: " + e.currentToken.image);
+	    } catch (TokenMgrError e) {
+	        System.err.println("\nERRO LÉXICO:");
+	        System.err.println(e.getMessage());
+	    }
+	}
+
 
 /* REGRAS GRAMATICAIS */
   static final public void Programa() throws ParseException {

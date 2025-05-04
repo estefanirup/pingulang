@@ -61,7 +61,6 @@ public class ParseException extends Exception {
     super(message);
   }
 
-
   /**
    * This is the last token that has been consumed successfully.  If
    * this object has been created due to a parse error, the token
@@ -93,8 +92,7 @@ public class ParseException extends Exception {
   private static String initialise(Token currentToken,
                            int[][] expectedTokenSequences,
                            String[] tokenImage) {
-
-    StringBuilder expected = new StringBuilder();
+    StringBuffer expected = new StringBuffer();
     int maxSize = 0;
     for (int i = 0; i < expectedTokenSequences.length; i++) {
       if (maxSize < expectedTokenSequences[i].length) {
@@ -108,40 +106,37 @@ public class ParseException extends Exception {
       }
       expected.append(EOL).append("    ");
     }
-    String retval = "Encountered \"";
+    
+    // Mensagem de erro em português
+    StringBuffer retval = new StringBuffer();
+    retval.append("Erro de sintaxe na linha ").append(currentToken.next.beginLine)
+          .append(", coluna ").append(currentToken.next.beginColumn).append(".").append(EOL);
+    
+    retval.append("Encontrado: \"");
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
-      if (i != 0) retval += " ";
+      if (i != 0) retval.append(" ");
       if (tok.kind == 0) {
-        retval += tokenImage[0];
+        retval.append(tokenImage[0]);
         break;
       }
-      retval += " " + tokenImage[tok.kind];
-      retval += " \"";
-      retval += add_escapes(tok.image);
-      retval += " \"";
+      retval.append(" ").append(tokenImage[tok.kind]);
+      retval.append(" \"");
+      retval.append(add_escapes(tok.image));
+      retval.append("\"");
       tok = tok.next;
     }
-    if (currentToken.next != null) {
-      retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn;
-    }
-    retval += "." + EOL;
+    retval.append("\"").append(EOL);
     
-    
-    if (expectedTokenSequences.length == 0) {
-        // Nothing to add here
+    if (expectedTokenSequences.length == 1) {
+      retval.append("Era esperado: ").append(EOL).append("    ");
     } else {
-	    if (expectedTokenSequences.length == 1) {
-	      retval += "Was expecting:" + EOL + "    ";
-	    } else {
-	      retval += "Was expecting one of:" + EOL + "    ";
-	    }
-	    retval += expected.toString();
+      retval.append("Era esperado um dos seguintes: ").append(EOL).append("    ");
     }
+    retval.append(expected.toString());
     
-    return retval;
+    return retval.toString();
   }
-
 
   /**
    * Used to convert raw characters to their escaped version
@@ -149,7 +144,7 @@ public class ParseException extends Exception {
    * string literal.
    */
   static String add_escapes(String str) {
-      StringBuilder retval = new StringBuilder();
+      StringBuffer retval = new StringBuffer();
       char ch;
       for (int i = 0; i < str.length(); i++) {
         switch (str.charAt(i))
@@ -190,6 +185,4 @@ public class ParseException extends Exception {
       }
       return retval.toString();
    }
-
 }
-/* JavaCC - OriginalChecksum=e44ab9fb78942ddc5e29e3c78a2b19b1 (do not edit this line) */
