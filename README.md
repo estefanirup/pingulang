@@ -1,5 +1,74 @@
-# 🐧 Pingulang - Exemplos Usados na Apresentação
+# 🐧 Pingulang
 
+Pingulang é um compilador em desenvolvimento, utilizando da ferramenta de auxílio para criação de compiladores JavaCC. Contém as funcionalidades de análise léxica, sintática e controle de erros em língua Portuguesa, mencionando tokens esperados, o que gerou o erro, em qual linha se localiza e outros. Além disso, foram implementadas três estruturas de laço de repetição(While, For e DoWhile), uma estrutura condicional(if), definição de variáveis únicas e em lista de variáveis, podendo utilizar com ou sem atribuição durante a declaração. Pingulang conta com    cinco tipos de dados, dentre eles, inteiro, flutuante, boolean, char e string.
+
+```Backus-Naur Form
+<Programa> ::= "E LA VAMOS NOS" <Declaracoes> <Comandos> "ISSO EH TUDO P-PESSOAL"
+
+<Declaracoes> ::= { <Declaracao> }
+
+<Declaracao> ::= <Tipo> <ListaVariaveis> "PINGU"
+
+<DeclaracaoSemPingu> ::= <Tipo> <ListaVariaveis>
+
+<Tipo> ::= "IO" | "FLORZINHA" | "SID" | "PENELOPE CHARMOSA"
+
+<ListaVariaveis> ::= <VariavelDeclarada> { "," <VariavelDeclarada> }
+
+<VariavelDeclarada> ::= <ID> [ <OpAtrib> <Expressao> ]
+
+<OpAtrib> ::= "=" | "+=" | "-=" | "*=" | "/="
+
+<Comandos> ::= { <Comando> }
+
+<Comando> ::= <Condicional>
+            | <Repeticao>
+            | <Atribuicao> "PINGU"
+            | <EntradaSaida> "PINGU"
+            | <Bloco>
+
+<Atribuicao> ::= <ID> <OpAtrib> <Expressao>
+
+<Condicional> ::= "SERIA" "(" <Expressao> ")" <Comando> [ "OU SERA QUE NAO" <Comando> ]
+
+<Repeticao> ::= <While> | <For> | <DoWhile>
+
+<While> ::= "A EH REPETE" "(" <Expressao> ")" <Comando>
+
+<For> ::= "FORCA G" "(" ( <DeclaracaoSemPingu> | <Atribuicao> ) "," <Expressao> "," <Atribuicao> ")" <Comando>
+
+<DoWhile> ::= "YABBA DABBA DOO" <Comando> "A EH REPETE" "(" <Expressao> ")" "PINGU"
+
+<EntradaSaida> ::= "MOSTLA" "(" <Expressao> ")"
+                 | "ESCLEVE" "(" <ID> ")"
+
+<Bloco> ::= "{" <Comandos> "}"
+
+<Expressao> ::= <ExpressaoLogica>
+
+<ExpressaoLogica> ::= <ExpressaoRelacional> { <OP_LOGICO> <ExpressaoRelacional> }
+
+<ExpressaoRelacional> ::= <ExpressaoAritmetica> { <OP_RELACIONAL> <ExpressaoAritmetica> }
+
+<ExpressaoAritmetica> ::= <Termo> { ("+" | "-") <Termo> }
+
+<Termo> ::= <Fator> { ("*" | "/" | "%") <Fator> }
+
+<Fator> ::= <ID>
+          | <INTEIRO>
+          | <FLOAT>
+          | "A GENTE VAI VIVER"
+          | "A GENTE VAI MORRER"
+          | <CHAR>
+          | <STRING>
+          | "(" <Expressao> ")"
+          | "!" <Fator>
+
+Última coisa, Nossa BFN está aqui, caso dê para dar uma olhada
+```
+
+
+# Exemplos de código em Pingulang
 ## 1. Marcadores de início e fim do programa
 
 ```pingu
