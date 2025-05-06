@@ -1,6 +1,6 @@
 # 🐧 Pingulang
 
-PinguLang é um compilador em desenvolvimento baseado no JavaCC, com análise léxica/sintática e mensagens de erro em português. Suporta estruturas de controle (while, for, do-while, if-else), declaração de variáveis (com ou sem atribuição) e cinco tipos de dados: inteiro, flutuante, booleano, char e string. 
+PinguLang é um compilador em desenvolvimento baseado no JavaCC, com análise léxica/sintática e mensagens de erro em português. Suporta estruturas de controle (while, for, do-while, if-else), declaração de variáveis (com ou sem atribuição) e quatro tipos de dados: inteiro, flutuante, booleano e char. 
 
 Dentre as limitações deste compilador, inclui-se a falta de suporte a funções definidas pelo usuário, falta de estruturas de dados complexas(arrays e registros), dentre outros.
 
