@@ -71,32 +71,6 @@ public class pingulangCompiler implements pingulangCompilerConstants {
     jj_consume_token(PINGU);
 }
 
-  static final public void DeclaracaoSemPingu() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case INT_TYPE:{
-      jj_consume_token(INT_TYPE);
-      break;
-      }
-    case FLOAT_TYPE:{
-      jj_consume_token(FLOAT_TYPE);
-      break;
-      }
-    case BOOL_TYPE:{
-      jj_consume_token(BOOL_TYPE);
-      break;
-      }
-    case CHAR_TYPE:{
-      jj_consume_token(CHAR_TYPE);
-      break;
-      }
-    default:
-      jj_la1[2] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-    ListaVariaveis();
-}
-
   static final public void ListaVariaveis() throws ParseException {
     jj_consume_token(ID);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -127,7 +101,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[2] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -135,7 +109,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
       break;
       }
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[3] = jj_gen;
       ;
     }
     label_2:
@@ -146,7 +120,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[4] = jj_gen;
         break label_2;
       }
       jj_consume_token(35);
@@ -179,7 +153,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
           break;
           }
         default:
-          jj_la1[6] = jj_gen;
+          jj_la1[5] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -187,7 +161,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[6] = jj_gen;
         ;
       }
     }
@@ -223,7 +197,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[7] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -231,7 +205,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
       break;
       }
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[8] = jj_gen;
       ;
     }
 }
@@ -253,7 +227,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[9] = jj_gen;
         break label_3;
       }
       Comando();
@@ -287,7 +261,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[10] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -325,7 +299,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[11] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -333,7 +307,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
       break;
       }
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -370,7 +344,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
       break;
       }
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -387,20 +361,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
   static final public void For() throws ParseException {
     jj_consume_token(FOR);
     jj_consume_token(36);
-    if (jj_2_3(2147483647)) {
-      DeclaracaoSemPingu();
-    } else {
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case ID:{
-        Atribuicao();
-        break;
-        }
-      default:
-        jj_la1[15] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
+    Atribuicao();
     jj_consume_token(35);
     Expressao();
     jj_consume_token(35);
@@ -437,7 +398,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
       break;
       }
     default:
-      jj_la1[16] = jj_gen;
+      jj_la1[14] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -465,7 +426,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[17] = jj_gen;
+        jj_la1[15] = jj_gen;
         break label_4;
       }
       jj_consume_token(OP_LOGICO);
@@ -483,7 +444,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[18] = jj_gen;
+        jj_la1[16] = jj_gen;
         break label_5;
       }
       jj_consume_token(OP_RELACIONAL);
@@ -501,7 +462,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[19] = jj_gen;
+        jj_la1[17] = jj_gen;
         break label_6;
       }
       jj_consume_token(OP_ARITMETICO);
@@ -519,7 +480,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
         break;
         }
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[18] = jj_gen;
         break label_7;
       }
       jj_consume_token(OP_ARITMETICO);
@@ -569,7 +530,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
       break;
       }
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[19] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -591,122 +552,130 @@ public class pingulangCompiler implements pingulangCompilerConstants {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_2_3(int xla)
+  static private boolean jj_3R_Repeticao_180_5_14()
  {
-    jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return (!jj_3_3()); }
-    catch(LookaheadSuccess ls) { return true; }
-    finally { jj_save(2, xla); }
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_Repeticao_180_5_18()) {
+    jj_scanpos = xsp;
+    if (jj_3R_Repeticao_180_15_19()) {
+    jj_scanpos = xsp;
+    if (jj_3R_Repeticao_180_23_20()) return true;
+    }
+    }
+    return false;
   }
 
-  static private boolean jj_3R_Condicional_181_5_8()
+  static private boolean jj_3R_Repeticao_180_5_18()
+ {
+    if (jj_3R_While_186_5_23()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2()
+ {
+    if (jj_scan_token(ELSE)) return true;
+    if (jj_3R_Comando_144_5_9()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_Condicional_172_5_8()
  {
     if (jj_scan_token(IF)) return true;
     if (jj_scan_token(36)) return true;
     return false;
   }
 
-  static private boolean jj_3R_EntradaSaida_224_7_22()
+  static private boolean jj_3R_Bloco_217_5_17()
+ {
+    if (jj_scan_token(INICIO_BLOCO)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_EntradaSaida_210_7_22()
  {
     if (jj_scan_token(INPUT)) return true;
     return false;
   }
 
-  static private boolean jj_3R_EntradaSaida_223_5_16()
+  static private boolean jj_3R_EntradaSaida_209_5_16()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_EntradaSaida_223_5_21()) {
+    if (jj_3R_EntradaSaida_209_5_21()) {
     jj_scanpos = xsp;
-    if (jj_3R_EntradaSaida_224_7_22()) return true;
+    if (jj_3R_EntradaSaida_210_7_22()) return true;
     }
     return false;
   }
 
-  static private boolean jj_3R_EntradaSaida_223_5_21()
+  static private boolean jj_3R_EntradaSaida_209_5_21()
  {
     if (jj_scan_token(PRINT)) return true;
     return false;
   }
 
-  static private boolean jj_3R_DoWhile_216_5_25()
- {
-    if (jj_scan_token(DO)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_Atribuicao_169_5_15()
+  static private boolean jj_3R_Atribuicao_160_5_15()
  {
     if (jj_scan_token(ID)) return true;
     return false;
   }
 
-  static private boolean jj_3_3()
+  static private boolean jj_3R_DoWhile_202_5_25()
  {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(9)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(10)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(11)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(12)) return true;
-    }
-    }
-    }
+    if (jj_scan_token(DO)) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_162_5_13()
+  static private boolean jj_3R_Comando_153_5_13()
  {
-    if (jj_3R_Bloco_231_5_17()) return true;
+    if (jj_3R_Bloco_217_5_17()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_160_5_12()
+  static private boolean jj_3R_Comando_151_5_12()
  {
-    if (jj_3R_EntradaSaida_223_5_16()) return true;
+    if (jj_3R_EntradaSaida_209_5_16()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Repeticao_189_23_20()
+  static private boolean jj_3R_Repeticao_180_23_20()
  {
-    if (jj_3R_DoWhile_216_5_25()) return true;
+    if (jj_3R_DoWhile_202_5_25()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_158_5_11()
+  static private boolean jj_3R_Comando_149_5_11()
  {
-    if (jj_3R_Atribuicao_169_5_15()) return true;
+    if (jj_3R_Atribuicao_160_5_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_156_5_10()
+  static private boolean jj_3R_Comando_147_5_10()
  {
-    if (jj_3R_Repeticao_189_5_14()) return true;
+    if (jj_3R_Repeticao_180_5_14()) return true;
     return false;
   }
 
-  static private boolean jj_3R_For_201_5_24()
+  static private boolean jj_3R_For_192_5_24()
  {
     if (jj_scan_token(FOR)) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_153_5_9()
+  static private boolean jj_3R_Comando_144_5_9()
  {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_1()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_156_5_10()) {
+    if (jj_3R_Comando_147_5_10()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_158_5_11()) {
+    if (jj_3R_Comando_149_5_11()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_160_5_12()) {
+    if (jj_3R_Comando_151_5_12()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_162_5_13()) return true;
+    if (jj_3R_Comando_153_5_13()) return true;
     }
     }
     }
@@ -716,52 +685,19 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 
   static private boolean jj_3_1()
  {
-    if (jj_3R_Condicional_181_5_8()) return true;
+    if (jj_3R_Condicional_172_5_8()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Repeticao_189_15_19()
+  static private boolean jj_3R_Repeticao_180_15_19()
  {
-    if (jj_3R_For_201_5_24()) return true;
+    if (jj_3R_For_192_5_24()) return true;
     return false;
   }
 
-  static private boolean jj_3R_While_195_5_23()
+  static private boolean jj_3R_While_186_5_23()
  {
     if (jj_scan_token(WHILE)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_Repeticao_189_5_14()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_Repeticao_189_5_18()) {
-    jj_scanpos = xsp;
-    if (jj_3R_Repeticao_189_15_19()) {
-    jj_scanpos = xsp;
-    if (jj_3R_Repeticao_189_23_20()) return true;
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_Repeticao_189_5_18()
- {
-    if (jj_3R_While_195_5_23()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2()
- {
-    if (jj_scan_token(ELSE)) return true;
-    if (jj_3R_Comando_153_5_9()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_Bloco_231_5_17()
- {
-    if (jj_scan_token(INICIO_BLOCO)) return true;
     return false;
   }
 
@@ -777,7 +713,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
   static private Token jj_scanpos, jj_lastpos;
   static private int jj_la;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[22];
+  static final private int[] jj_la1 = new int[20];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -785,12 +721,12 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x1e00,0x1e00,0x1e00,0x3e000000,0x3e000000,0x0,0x3e000000,0x3e000000,0x3e000000,0x3e000000,0x3e8040,0x3e0040,0x3c000000,0x3e000000,0xe0000,0x0,0x300000,0x800000,0x400000,0x1000000,0x1000000,0xc0006000,};
+	   jj_la1_0 = new int[] {0x1e00,0x1e00,0x3e000000,0x3e000000,0x0,0x3e000000,0x3e000000,0x3e000000,0x3e000000,0x3e8040,0x3e0040,0x3c000000,0x3e000000,0xe0000,0x300000,0x800000,0x400000,0x1000000,0x1000000,0xc0006000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x0,0x0,0x4,0x4,0x0,0x0,0x0,0x4,0x0,0x0,0x0,0x0,0x0,0x57,};
+	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x8,0x0,0x0,0x0,0x0,0x4,0x4,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x57,};
 	}
-  static final private JJCalls[] jj_2_rtns = new JJCalls[3];
+  static final private JJCalls[] jj_2_rtns = new JJCalls[2];
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
 
@@ -812,7 +748,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -827,7 +763,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -845,7 +781,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -864,7 +800,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -881,7 +817,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -891,7 +827,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 20; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1027,7 +963,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 22; i++) {
+	 for (int i = 0; i < 20; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1073,7 +1009,7 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 
   static private void jj_rescan_token() {
 	 jj_rescan = true;
-	 for (int i = 0; i < 3; i++) {
+	 for (int i = 0; i < 2; i++) {
 	   try {
 		 JJCalls p = jj_2_rtns[i];
 
@@ -1083,7 +1019,6 @@ public class pingulangCompiler implements pingulangCompilerConstants {
 			 switch (i) {
 			   case 0: jj_3_1(); break;
 			   case 1: jj_3_2(); break;
-			   case 2: jj_3_3(); break;
 			 }
 		   }
 		   p = p.next;

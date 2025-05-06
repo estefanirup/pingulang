@@ -112,15 +112,6 @@ void Declaracao() :
     <PINGU>
 }
 
-void DeclaracaoSemPingu() :
-{}
-{
-    (
-      <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE>
-    )
-    ListaVariaveis()
-}
-
 void ListaVariaveis() :
 {}
 {
@@ -199,12 +190,7 @@ void For() :
 {}
 {
     <FOR> "("
-    (
-      LOOKAHEAD( <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE> )
-      DeclaracaoSemPingu()
-    |
       Atribuicao()
-    )
     "," Expressao()
     "," Atribuicao()
     ")" Comando()
