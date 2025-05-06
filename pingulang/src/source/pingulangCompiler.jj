@@ -15,7 +15,7 @@ public class pingulangCompiler
     pingulangCompiler parser = new pingulangCompiler(System.in);
     try {
         parser.Programa();
-        System.out.println("Analise concluda com sucesso! Programa valido.");
+        System.out.println("Analise concluida com sucesso! Programa valido.");
     } catch (ParseException e) {
             System.err.println("Erro de sintaxe:");
             System.err.println(e.getMessage());
