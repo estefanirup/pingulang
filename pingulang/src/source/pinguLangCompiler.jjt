@@ -1,0 +1,399 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
+ */
+options
+{
+  static = true;
+}
+
+PARSER_BEGIN(pingulangCompiler)
+package source;
+import recovery.*;
+public class pingulangCompiler
+{
+  public static void main(String args[]) throws ParseException {
+    pingulangCompiler parser = new pingulangCompiler(System.in);
+    
+    while (true)
+    {
+      System.out.println("Reading from standard input...");
+      System.out.print("digite :");
+      try
+      {
+        SimpleNode n = pingulangCompiler.Programa();
+        n.dump("");
+        //parser.Programa();
+        //System.out.println("Analise concluida com sucesso! Programa valido.");
+      }
+      catch (ParseException e)
+      {
+            System.err.println("Erro de sintaxe:");
+            System.err.println(e.getMessage());
+      }
+      catch (TokenMgrError e)
+      {
+            System.err.println("Erro léxico:");
+            System.err.println(e.getMessage());
+      }
+  }
+}
+ static public String im(int x)
+  {
+    int k;
+	String s;
+    s = tokenImage[x];
+    k = s.lastIndexOf("\"");
+    try {
+      s = s.substring(1,k);
+    }
+   catch (StringIndexOutOfBoundsException e)
+	   {}
+   return s;
+  }
+	
+  static Token lastError = null;
+  static boolean eof;    // variável que indica se EOF foi alcançado
+	
+  // o método abaixo consome tokens até alcançar um que pertença ao conjunto
+  // de sincronização
+  static void consumeUntil(RecoverySet g,
+	                 ParseException e,
+	                 String met) throws ParseEOFException,
+	                                    ParseException
+  {
+	Token tok;
+	System.out.println();
+	System.out.println("*** " + met + " ***");
+	System.out.println("     Conjunto de sincronização: " + g);
+		
+	if (g == null) throw e; // se o conjunto é null, propaga a exceção
+	
+	tok = getToken(1); // pega token corrente
+	while ( ! eof )	{ // se não chegou ao fim do arquivo
+	  if ( g.contains(tok.kind)) {//achou um token no conjunto
+	    System.out.println("     Encontrado token de sincronização: " + 
+	                       im(tok.kind));
+	    break;
+	  }
+	  System.out.println("     Ignorando o token: " + im(tok.kind));
+	  getNextToken();     // pega próximo token       
+      tok = getToken(1);
+	  if (tok.kind == EOF && ! g.contains(EOF) ) // fim da entrada?   
+	      eof = true;
+	}
+    if ( tok != lastError)  {
+	  System.out.println(e.getMessage());
+	  lastError = tok;
+	   
+	}
+	if ( eof )
+	  throw new ParseEOFException("Encontrei EOF onde não deveria.");
+  }
+}
+
+PARSER_END(pingulangCompiler)
+
+SKIP : {
+    < " " | "\t" | "\n" | "\r" >
+  | < "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >
+  | < "/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/" >
+}
+
+
+/* TOKENS PRINCIPAIS */
+TOKEN : {
+    < INICIO_PROGRAMA: "E LA VAMOS NOS" >
+  | < FIM_PROGRAMA: "ISSO EH TUDO P-PESSOAL" >
+  | < INICIO_BLOCO: "{" >
+  | < FIM_BLOCO: "}" >
+  | < PINGU: "PINGU" >
+}
+
+/* TIPOS DE DADOS */
+TOKEN : {
+    < INT_TYPE: "IO" >
+  | < FLOAT_TYPE: "FLORZINHA" >
+  | < BOOL_TYPE: "SID" >
+  | < CHAR_TYPE: "PENELOPE CHARMOSA" >
+  | < TRUE: "A GENTE VAI VIVER" >
+  | < FALSE: "A GENTE VAI MORRER" >
+}
+
+/* ESTRUTURAS DE CONTROLE*/
+TOKEN : {
+    < IF: "SERIA" >
+  | < ELSE: "OU SERA QUE NAO" >
+  | < WHILE: "A EH REPETE" >
+  | < FOR: "FORCA G" >
+  | < DO: "YABBA DABBA DOO" >
+}
+
+/* FUNÇÕES E OPERADORES */
+TOKEN : {
+    < PRINT: "MOSTLA" >
+  | < INPUT: "ESCLEVE" >
+  | < OP_RELACIONAL: "==" | "!=" | ">" | "<" | ">=" | "<=" >
+  | < OP_LOGICO: "&&" | "||" >
+  | < OP_ARITMETICO: "+" | "-" | "*" | "/" | "%" >
+  | < OP_IGUAL: "=" >
+  | < OP_AUMENTO: "+=" >
+  | < OP_DIMINUI: "-=" >
+  | < OP_MULTIPLICA: "*=" >
+  | < OP_DIVIDE: "/=" >
+}
+
+/* LITERAIS E IDENTIFICADORES */
+TOKEN : {
+    < INTEIRO: (["0"-"9"])+ >
+  | < FLOAT: (["0"-"9"])+ "." (["0"-"9"])+ >
+  | < CHAR: "'" (~["'","\\"] | "\\" ["n","t","b","r","f","\\","'","\""]) "'" >
+  | < STRING: "\"" (~["\"","\\"] | "\\" ["n","t","b","r","f","\\","'","\""])* "\"" >
+  | < ID: ["a"-"z"] (["a"-"z","A"-"Z","0"-"9","_"])* >
+}
+
+/* REGRAS GRAMATICAIS */
+SimpleNode Programa() :
+{RecoverySet g = Follow.Programa;}
+{
+  try {
+    <INICIO_PROGRAMA>
+    ( Declaracao() )*
+    ( Comando() )*
+    <FIM_PROGRAMA>
+    {
+	return jjtThis;
+    }
+      } catch(ParseException e) {
+         consumeUntil(g,e,"Programa");
+         }
+    
+}
+
+//void identificador() : { }
+
+//void inicioPrograma() : { }
+
+void Declaracao() :
+{RecoverySet g = Follow.Declaracao;}
+{
+  try {
+    (
+      <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE>
+    )
+    ListaVariaveis()
+    <PINGU>
+      } catch (ParseException e) {
+         consumeUntil(g,e,"Declaracao");
+         }
+}
+
+void ListaVariaveis() :
+{RecoverySet g = Follow.ListaVariaveis;}
+{
+   try { 
+    <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )?
+    ( "," <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )? )*
+    } catch (ParseException e) {
+         consumeUntil(g,e,"ListaVariaveis");
+         }
+}
+
+
+void Variavel() :
+{RecoverySet g = Follow.Variavel;}
+{
+  try { 
+    <ID>
+    (
+        ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> )
+        Expressao()
+    )?
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Variavel");
+         }
+}
+
+
+/* REGRAS DE COMANDOS */
+void Comando() :
+{RecoverySet g = Follow.Comando;}
+{
+  try { 
+    LOOKAHEAD(2)
+    Condicional()
+    |
+    Repeticao()
+    |
+    Atribuicao()  <PINGU>
+    |
+    EntradaSaida() <PINGU>
+    |
+    Bloco()
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Comando");
+         }
+}
+
+/* ATRIBUIÇÕES */
+void Atribuicao() :
+{RecoverySet g = Follow.Atribuicao;}
+{
+  try { 
+    <ID> 
+    (
+        <OP_IGUAL> Expressao()
+        |
+        ( <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao()
+    )
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Atribuicao");
+         }
+}
+
+/* ESTRUTURAS CONDICIONAIS */
+void Condicional() :
+{RecoverySet g = Follow.Condicional;}
+{
+  try { 
+    <IF> "(" Expressao() ")" Comando()
+    [ LOOKAHEAD(2) <ELSE> Comando() ]
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Condicional");
+         }
+}
+
+/* ESTRUTURAS DE REPETIÇÃO */
+void Repeticao() :
+{RecoverySet g = Follow.Repeticao;}
+{ try { 
+    While() | For() | DoWhile()
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Repeticao");
+         }
+}
+
+void While() :
+{RecoverySet g = Follow.While;}
+{
+  try { 
+    <WHILE> "(" Expressao() ")" Comando()
+  } catch (ParseException e) {
+         consumeUntil(g,e,"While");
+         }
+}
+
+void For() :
+{RecoverySet g = Follow.For;}
+{
+  try { 
+    <FOR> "("
+      Atribuicao()
+    "," Expressao()
+    "," Atribuicao()
+    ")" Comando()
+  } catch (ParseException e) {
+         consumeUntil(g,e,"For");
+         }
+}
+
+void DoWhile() :
+{RecoverySet g = Follow.DoWhile;}
+{
+  try { 
+    <DO> Comando() <WHILE> "(" Expressao() ")" <PINGU>
+  } catch (ParseException e) {
+         consumeUntil(g,e,"DoWhile");
+         }
+}
+
+/* ENTRADA/SAÍDA */
+void EntradaSaida() :
+{RecoverySet g = Follow.EntradaSaida;}
+{
+  try { 
+    <PRINT> "(" Expressao() ")" 
+    | <INPUT> "(" <ID> ")"
+  } catch (ParseException e) {
+         consumeUntil(g,e,"EntradaSaida");
+         }
+}
+
+/* BLOCOS */
+void Bloco() :
+{RecoverySet g = Follow.Bloco;}
+{
+  try { 
+    <INICIO_BLOCO> ( Comando() )* <FIM_BLOCO>
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Bloco");
+         }
+}
+
+/* EXPRESSÕES */
+void Expressao() :
+{RecoverySet g = Follow.Expressao;}
+{
+  try { 
+    ExpressaoLogica()
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Expressao");
+         }
+}
+
+void ExpressaoLogica() :
+{RecoverySet g = Follow.ExpressaoLogica;}
+{
+  try { 
+    ExpressaoRelacional() ( <OP_LOGICO> ExpressaoRelacional() )*
+  } catch (ParseException e) {
+         consumeUntil(g,e,"ExpressaoLogica");
+         }
+}
+
+void ExpressaoRelacional() :
+{RecoverySet g = Follow.ExpressaoRelacional;}
+{
+  try { 
+    ExpressaoAritmetica() ( <OP_RELACIONAL> ExpressaoAritmetica() )*
+  } catch (ParseException e) {
+         consumeUntil(g,e,"ExpressaoRelacional");
+         }
+}
+
+void ExpressaoAritmetica() :
+{RecoverySet g = Follow.ExpressaoAritmetica;}
+{
+  try { 
+    Termo() ( <OP_ARITMETICO> Termo() )*
+  } catch (ParseException e) {
+         consumeUntil(g,e,"ExpressaoAritmetica");
+         }
+}
+
+void Termo() :
+{RecoverySet g = Follow.Termo;}
+{
+  try { 
+    Fator() ( <OP_ARITMETICO> Fator() )*
+  } catch (ParseException e) {
+         consumeUntil(g,e,"Termo");
+         }
+}
+
+void Fator() :
+{RecoverySet g = Follow.Fator;}
+{
+  try { 
+    <ID>
+  | <INTEIRO>
+  | <FLOAT>
+  | <TRUE>
+  | <FALSE>
+  | <CHAR>
+  | <STRING>
+  | "(" Expressao() ")"
+  | "!" Fator()
+} catch (ParseException e) {
+         consumeUntil(g,e,"Fator");
+         } 
+}
