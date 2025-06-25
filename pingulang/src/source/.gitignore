@@ -4,3 +4,8 @@
 /pingulangCompiler.java
 /pingulangCompilerConstants.java
 /pingulangCompilerTokenManager.java
+/JJTpingulangCompilerState.java
+/Node.java
+/pingulangCompiler.jj
+/pingulangCompilerTreeConstants.java
+/SimpleNode.java
