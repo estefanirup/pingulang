@@ -156,10 +156,10 @@ SimpleNode Programa() :
 {RecoverySet g = Follow.Programa;}
 {
   try {
-    <INICIO_PROGRAMA>
+    Inicio()
     ( Declaracao() )*
     ( Comando() )*
-    <FIM_PROGRAMA>
+    Fim()
     {
 	return jjtThis;
     }
@@ -169,19 +169,15 @@ SimpleNode Programa() :
     
 }
 
-//void identificador() : { }
-
-//void inicioPrograma() : { }
-
 void Declaracao() :
 {RecoverySet g = Follow.Declaracao;}
 {
   try {
     (
-      <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE>
+      TipoInt() | TipoFloat() | TipoBool() | TipoChar()
     )
     ListaVariaveis()
-    <PINGU>
+    FimLinha()
       } catch (ParseException e) {
          consumeUntil(g,e,"Declaracao");
          }
@@ -191,8 +187,8 @@ void ListaVariaveis() :
 {RecoverySet g = Follow.ListaVariaveis;}
 {
    try { 
-    <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )?
-    ( "," <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )? )*
+    Identificador() ( ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() ) Expressao() )?
+    ( "," Identificador() ( ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() ) Expressao() )? )*
     } catch (ParseException e) {
          consumeUntil(g,e,"ListaVariaveis");
          }
@@ -203,9 +199,9 @@ void Variavel() :
 {RecoverySet g = Follow.Variavel;}
 {
   try { 
-    <ID>
+    Identificador()
     (
-        ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> )
+        ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() )
         Expressao()
     )?
   } catch (ParseException e) {
@@ -224,9 +220,9 @@ void Comando() :
     |
     Repeticao()
     |
-    Atribuicao()  <PINGU>
+    Atribuicao()  FimLinha()
     |
-    EntradaSaida() <PINGU>
+    EntradaSaida() FimLinha()
     |
     Bloco()
   } catch (ParseException e) {
@@ -239,11 +235,11 @@ void Atribuicao() :
 {RecoverySet g = Follow.Atribuicao;}
 {
   try { 
-    <ID> 
+    Identificador() 
     (
-        <OP_IGUAL> Expressao()
+        Igual() Expressao()
         |
-        ( <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao()
+        ( Aumento() | Diminui() | Multiplica() | Divide() ) Expressao()
     )
   } catch (ParseException e) {
          consumeUntil(g,e,"Atribuicao");
@@ -255,8 +251,8 @@ void Condicional() :
 {RecoverySet g = Follow.Condicional;}
 {
   try { 
-    <IF> "(" Expressao() ")" Comando()
-    [ LOOKAHEAD(2) <ELSE> Comando() ]
+    If() "(" Expressao() ")" Comando()
+    [ LOOKAHEAD(2) Else() Comando() ]
   } catch (ParseException e) {
          consumeUntil(g,e,"Condicional");
          }
@@ -276,7 +272,7 @@ void While() :
 {RecoverySet g = Follow.While;}
 {
   try { 
-    <WHILE> "(" Expressao() ")" Comando()
+    While_Token() "(" Expressao() ")" Comando()
   } catch (ParseException e) {
          consumeUntil(g,e,"While");
          }
@@ -286,7 +282,7 @@ void For() :
 {RecoverySet g = Follow.For;}
 {
   try { 
-    <FOR> "("
+    For_Token() "("
       Atribuicao()
     "," Expressao()
     "," Atribuicao()
@@ -300,7 +296,7 @@ void DoWhile() :
 {RecoverySet g = Follow.DoWhile;}
 {
   try { 
-    <DO> Comando() <WHILE> "(" Expressao() ")" <PINGU>
+    Do() Comando() While() "(" Expressao() ")" FimLinha()
   } catch (ParseException e) {
          consumeUntil(g,e,"DoWhile");
          }
@@ -311,8 +307,8 @@ void EntradaSaida() :
 {RecoverySet g = Follow.EntradaSaida;}
 {
   try { 
-    <PRINT> "(" Expressao() ")" 
-    | <INPUT> "(" <ID> ")"
+    Print() "(" Expressao() ")" 
+    | Input() "(" Identificador() ")"
   } catch (ParseException e) {
          consumeUntil(g,e,"EntradaSaida");
          }
@@ -323,7 +319,7 @@ void Bloco() :
 {RecoverySet g = Follow.Bloco;}
 {
   try { 
-    <INICIO_BLOCO> ( Comando() )* <FIM_BLOCO>
+    InicioBloco() ( Comando() )* FimBloco()
   } catch (ParseException e) {
          consumeUntil(g,e,"Bloco");
          }
@@ -344,7 +340,7 @@ void ExpressaoLogica() :
 {RecoverySet g = Follow.ExpressaoLogica;}
 {
   try { 
-    ExpressaoRelacional() ( <OP_LOGICO> ExpressaoRelacional() )*
+    ExpressaoRelacional() ( OperadorLogico() ExpressaoRelacional() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"ExpressaoLogica");
          }
@@ -354,7 +350,7 @@ void ExpressaoRelacional() :
 {RecoverySet g = Follow.ExpressaoRelacional;}
 {
   try { 
-    ExpressaoAritmetica() ( <OP_RELACIONAL> ExpressaoAritmetica() )*
+    ExpressaoAritmetica() ( OperadorRelacional() ExpressaoAritmetica() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"ExpressaoRelacional");
          }
@@ -364,7 +360,7 @@ void ExpressaoAritmetica() :
 {RecoverySet g = Follow.ExpressaoAritmetica;}
 {
   try { 
-    Termo() ( <OP_ARITMETICO> Termo() )*
+    Termo() ( OperadorAritmetico() Termo() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"ExpressaoAritmetica");
          }
@@ -374,7 +370,7 @@ void Termo() :
 {RecoverySet g = Follow.Termo;}
 {
   try { 
-    Fator() ( <OP_ARITMETICO> Fator() )*
+    Fator() ( OperadorAritmetico() Fator() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"Termo");
          }
@@ -384,7 +380,7 @@ void Fator() :
 {RecoverySet g = Follow.Fator;}
 {
   try { 
-    <ID>
+    Identificador()
   | <INTEIRO>
   | <FLOAT>
   | <TRUE>
@@ -396,4 +392,164 @@ void Fator() :
 } catch (ParseException e) {
          consumeUntil(g,e,"Fator");
          } 
+}
+
+/* TERMINAIS */
+
+//inicio e fim
+void Inicio():
+{}
+{
+  <INICIO_PROGRAMA>
+}
+
+void Fim():
+{}
+{
+  <FIM_PROGRAMA>
+}
+
+//ID
+void Identificador():
+{}
+{
+  <ID>
+}
+
+//bloco
+void InicioBloco():
+{}
+{
+  <INICIO_BLOCO>
+}
+
+void FimBloco():
+{}
+{
+  <FIM_BLOCO>
+}
+
+//variaveis
+void TipoInt():
+{}
+{
+  <INT_TYPE>
+}
+
+void TipoFloat():
+{}
+{
+  <FLOAT_TYPE>
+}
+
+void TipoBool():
+{}
+{
+  <BOOL_TYPE>
+}
+
+void TipoChar():
+{}
+{
+  <CHAR_TYPE>
+}
+
+//operacoes
+void Igual():
+{}
+{
+  <OP_IGUAL>
+}
+
+void Aumento():
+{}
+{
+  <OP_AUMENTO>
+}
+
+void Diminui():
+{}
+{
+  <OP_DIMINUI>
+}
+
+void Multiplica():
+{}
+{
+  <OP_MULTIPLICA>
+}
+
+void Divide():
+{}
+{
+  <OP_DIVIDE>
+}
+
+void OperadorAritmetico():
+{}
+{
+  <OP_ARITMETICO>
+}
+
+void OperadorLogico():
+{}
+{
+  <OP_LOGICO>
+}
+
+void OperadorRelacional():
+{}
+{
+  <OP_RELACIONAL>
+}
+
+//funcoes
+void If():
+{}
+{
+  <IF>
+}
+
+void Else():
+{}
+{
+  <ELSE>
+}
+
+void Do():
+{}
+{
+  <DO>
+}
+
+void While_Token():
+{}
+{
+  <WHILE>
+}
+
+void For_Token():
+{}
+{
+  <FOR>
+}
+
+//console
+void Print():
+{}
+{
+  <PRINT>
+}
+
+void Input():
+{}
+{
+  <INPUT>
+}
+
+//fim de linha
+void FimLinha():
+{}
+{
+  <PINGU>
 }

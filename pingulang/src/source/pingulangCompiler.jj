@@ -166,10 +166,10 @@ SimpleNode Programa() :
   try {
 /*@egen*/
   try {
-    <INICIO_PROGRAMA>
+    Inicio()
     ( Declaracao() )*
     ( Comando() )*
-    <FIM_PROGRAMA>
+    Fim()
     {
 	return jjtn000;
     }
@@ -199,10 +199,6 @@ SimpleNode Programa() :
     
 }
 
-//void identificador() : { }
-
-//void inicioPrograma() : { }
-
 void Declaracao() :
 {/*@bgen(jjtree) Declaracao */
  SimpleNode jjtn000 = new SimpleNode(JJTDECLARACAO);
@@ -214,10 +210,10 @@ void Declaracao() :
 /*@egen*/
   try {
     (
-      <INT_TYPE> | <FLOAT_TYPE> | <BOOL_TYPE> | <CHAR_TYPE>
+      TipoInt() | TipoFloat() | TipoBool() | TipoChar()
     )
     ListaVariaveis()
-    <PINGU>
+    FimLinha()
       } catch (ParseException e) {
          consumeUntil(g,e,"Declaracao");
          }/*@bgen(jjtree)*/
@@ -253,8 +249,8 @@ void ListaVariaveis() :
    try {
 /*@egen*/
    try { 
-    <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )?
-    ( "," <ID> ( ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao() )? )*
+    Identificador() ( ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() ) Expressao() )?
+    ( "," Identificador() ( ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() ) Expressao() )? )*
     } catch (ParseException e) {
          consumeUntil(g,e,"ListaVariaveis");
          }/*@bgen(jjtree)*/
@@ -291,9 +287,9 @@ void Variavel() :
   try {
 /*@egen*/
   try { 
-    <ID>
+    Identificador()
     (
-        ( <OP_IGUAL> | <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> )
+        ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() )
         Expressao()
     )?
   } catch (ParseException e) {
@@ -338,9 +334,9 @@ void Comando() :
     |
     Repeticao()
     |
-    Atribuicao()  <PINGU>
+    Atribuicao()  FimLinha()
     |
-    EntradaSaida() <PINGU>
+    EntradaSaida() FimLinha()
     |
     Bloco()
   } catch (ParseException e) {
@@ -379,11 +375,11 @@ void Atribuicao() :
   try {
 /*@egen*/
   try { 
-    <ID> 
+    Identificador() 
     (
-        <OP_IGUAL> Expressao()
+        Igual() Expressao()
         |
-        ( <OP_AUMENTO> | <OP_DIMINUI> | <OP_MULTIPLICA> | <OP_DIVIDE> ) Expressao()
+        ( Aumento() | Diminui() | Multiplica() | Divide() ) Expressao()
     )
   } catch (ParseException e) {
          consumeUntil(g,e,"Atribuicao");
@@ -421,8 +417,8 @@ void Condicional() :
   try {
 /*@egen*/
   try { 
-    <IF> "(" Expressao() ")" Comando()
-    [ LOOKAHEAD(2) <ELSE> Comando() ]
+    If() "(" Expressao() ")" Comando()
+    [ LOOKAHEAD(2) Else() Comando() ]
   } catch (ParseException e) {
          consumeUntil(g,e,"Condicional");
          }/*@bgen(jjtree)*/
@@ -494,7 +490,7 @@ void While() :
   try {
 /*@egen*/
   try { 
-    <WHILE> "(" Expressao() ")" Comando()
+    While_Token() "(" Expressao() ")" Comando()
   } catch (ParseException e) {
          consumeUntil(g,e,"While");
          }/*@bgen(jjtree)*/
@@ -530,7 +526,7 @@ void For() :
   try {
 /*@egen*/
   try { 
-    <FOR> "("
+    For_Token() "("
       Atribuicao()
     "," Expressao()
     "," Atribuicao()
@@ -570,7 +566,7 @@ void DoWhile() :
   try {
 /*@egen*/
   try { 
-    <DO> Comando() <WHILE> "(" Expressao() ")" <PINGU>
+    Do() Comando() While() "(" Expressao() ")" FimLinha()
   } catch (ParseException e) {
          consumeUntil(g,e,"DoWhile");
          }/*@bgen(jjtree)*/
@@ -607,8 +603,8 @@ void EntradaSaida() :
   try {
 /*@egen*/
   try { 
-    <PRINT> "(" Expressao() ")" 
-    | <INPUT> "(" <ID> ")"
+    Print() "(" Expressao() ")" 
+    | Input() "(" Identificador() ")"
   } catch (ParseException e) {
          consumeUntil(g,e,"EntradaSaida");
          }/*@bgen(jjtree)*/
@@ -645,7 +641,7 @@ void Bloco() :
   try {
 /*@egen*/
   try { 
-    <INICIO_BLOCO> ( Comando() )* <FIM_BLOCO>
+    InicioBloco() ( Comando() )* FimBloco()
   } catch (ParseException e) {
          consumeUntil(g,e,"Bloco");
          }/*@bgen(jjtree)*/
@@ -718,7 +714,7 @@ void ExpressaoLogica() :
   try {
 /*@egen*/
   try { 
-    ExpressaoRelacional() ( <OP_LOGICO> ExpressaoRelacional() )*
+    ExpressaoRelacional() ( OperadorLogico() ExpressaoRelacional() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"ExpressaoLogica");
          }/*@bgen(jjtree)*/
@@ -754,7 +750,7 @@ void ExpressaoRelacional() :
   try {
 /*@egen*/
   try { 
-    ExpressaoAritmetica() ( <OP_RELACIONAL> ExpressaoAritmetica() )*
+    ExpressaoAritmetica() ( OperadorRelacional() ExpressaoAritmetica() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"ExpressaoRelacional");
          }/*@bgen(jjtree)*/
@@ -790,7 +786,7 @@ void ExpressaoAritmetica() :
   try {
 /*@egen*/
   try { 
-    Termo() ( <OP_ARITMETICO> Termo() )*
+    Termo() ( OperadorAritmetico() Termo() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"ExpressaoAritmetica");
          }/*@bgen(jjtree)*/
@@ -826,7 +822,7 @@ void Termo() :
   try {
 /*@egen*/
   try { 
-    Fator() ( <OP_ARITMETICO> Fator() )*
+    Fator() ( OperadorAritmetico() Fator() )*
   } catch (ParseException e) {
          consumeUntil(g,e,"Termo");
          }/*@bgen(jjtree)*/
@@ -862,7 +858,7 @@ void Fator() :
   try {
 /*@egen*/
   try { 
-    <ID>
+    Identificador()
   | <INTEIRO>
   | <FLOAT>
   | <TRUE>
@@ -894,4 +890,464 @@ void Fator() :
     }
   }
 /*@egen*/ 
+}
+
+/* TERMINAIS */
+
+//inicio e fim
+void Inicio():
+{/*@bgen(jjtree) Inicio */
+  SimpleNode jjtn000 = new SimpleNode(JJTINICIO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Inicio */
+  try {
+/*@egen*/
+  <INICIO_PROGRAMA>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Fim():
+{/*@bgen(jjtree) Fim */
+  SimpleNode jjtn000 = new SimpleNode(JJTFIM);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Fim */
+  try {
+/*@egen*/
+  <FIM_PROGRAMA>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+//ID
+void Identificador():
+{/*@bgen(jjtree) Identificador */
+  SimpleNode jjtn000 = new SimpleNode(JJTIDENTIFICADOR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Identificador */
+  try {
+/*@egen*/
+  <ID>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+//bloco
+void InicioBloco():
+{/*@bgen(jjtree) InicioBloco */
+  SimpleNode jjtn000 = new SimpleNode(JJTINICIOBLOCO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) InicioBloco */
+  try {
+/*@egen*/
+  <INICIO_BLOCO>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void FimBloco():
+{/*@bgen(jjtree) FimBloco */
+  SimpleNode jjtn000 = new SimpleNode(JJTFIMBLOCO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) FimBloco */
+  try {
+/*@egen*/
+  <FIM_BLOCO>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+//variaveis
+void TipoInt():
+{/*@bgen(jjtree) TipoInt */
+  SimpleNode jjtn000 = new SimpleNode(JJTTIPOINT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) TipoInt */
+  try {
+/*@egen*/
+  <INT_TYPE>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void TipoFloat():
+{/*@bgen(jjtree) TipoFloat */
+  SimpleNode jjtn000 = new SimpleNode(JJTTIPOFLOAT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) TipoFloat */
+  try {
+/*@egen*/
+  <FLOAT_TYPE>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void TipoBool():
+{/*@bgen(jjtree) TipoBool */
+  SimpleNode jjtn000 = new SimpleNode(JJTTIPOBOOL);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) TipoBool */
+  try {
+/*@egen*/
+  <BOOL_TYPE>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void TipoChar():
+{/*@bgen(jjtree) TipoChar */
+  SimpleNode jjtn000 = new SimpleNode(JJTTIPOCHAR);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) TipoChar */
+  try {
+/*@egen*/
+  <CHAR_TYPE>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+//operacoes
+void Igual():
+{/*@bgen(jjtree) Igual */
+  SimpleNode jjtn000 = new SimpleNode(JJTIGUAL);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Igual */
+  try {
+/*@egen*/
+  <OP_IGUAL>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Aumento():
+{/*@bgen(jjtree) Aumento */
+  SimpleNode jjtn000 = new SimpleNode(JJTAUMENTO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Aumento */
+  try {
+/*@egen*/
+  <OP_AUMENTO>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Diminui():
+{/*@bgen(jjtree) Diminui */
+  SimpleNode jjtn000 = new SimpleNode(JJTDIMINUI);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Diminui */
+  try {
+/*@egen*/
+  <OP_DIMINUI>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Multiplica():
+{/*@bgen(jjtree) Multiplica */
+  SimpleNode jjtn000 = new SimpleNode(JJTMULTIPLICA);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Multiplica */
+  try {
+/*@egen*/
+  <OP_MULTIPLICA>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Divide():
+{/*@bgen(jjtree) Divide */
+  SimpleNode jjtn000 = new SimpleNode(JJTDIVIDE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Divide */
+  try {
+/*@egen*/
+  <OP_DIVIDE>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void OperadorAritmetico():
+{/*@bgen(jjtree) OperadorAritmetico */
+  SimpleNode jjtn000 = new SimpleNode(JJTOPERADORARITMETICO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) OperadorAritmetico */
+  try {
+/*@egen*/
+  <OP_ARITMETICO>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void OperadorLogico():
+{/*@bgen(jjtree) OperadorLogico */
+  SimpleNode jjtn000 = new SimpleNode(JJTOPERADORLOGICO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) OperadorLogico */
+  try {
+/*@egen*/
+  <OP_LOGICO>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void OperadorRelacional():
+{/*@bgen(jjtree) OperadorRelacional */
+  SimpleNode jjtn000 = new SimpleNode(JJTOPERADORRELACIONAL);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) OperadorRelacional */
+  try {
+/*@egen*/
+  <OP_RELACIONAL>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+//funcoes
+void If():
+{/*@bgen(jjtree) If */
+  SimpleNode jjtn000 = new SimpleNode(JJTIF);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) If */
+  try {
+/*@egen*/
+  <IF>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Else():
+{/*@bgen(jjtree) Else */
+  SimpleNode jjtn000 = new SimpleNode(JJTELSE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Else */
+  try {
+/*@egen*/
+  <ELSE>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Do():
+{/*@bgen(jjtree) Do */
+  SimpleNode jjtn000 = new SimpleNode(JJTDO);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Do */
+  try {
+/*@egen*/
+  <DO>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void While_Token():
+{/*@bgen(jjtree) While_Token */
+  SimpleNode jjtn000 = new SimpleNode(JJTWHILE_TOKEN);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) While_Token */
+  try {
+/*@egen*/
+  <WHILE>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void For_Token():
+{/*@bgen(jjtree) For_Token */
+  SimpleNode jjtn000 = new SimpleNode(JJTFOR_TOKEN);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) For_Token */
+  try {
+/*@egen*/
+  <FOR>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+//console
+void Print():
+{/*@bgen(jjtree) Print */
+  SimpleNode jjtn000 = new SimpleNode(JJTPRINT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Print */
+  try {
+/*@egen*/
+  <PRINT>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void Input():
+{/*@bgen(jjtree) Input */
+  SimpleNode jjtn000 = new SimpleNode(JJTINPUT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) Input */
+  try {
+/*@egen*/
+  <INPUT>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+//fim de linha
+void FimLinha():
+{/*@bgen(jjtree) FimLinha */
+  SimpleNode jjtn000 = new SimpleNode(JJTFIMLINHA);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) FimLinha */
+  try {
+/*@egen*/
+  <PINGU>/*@bgen(jjtree)*/
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
 }
