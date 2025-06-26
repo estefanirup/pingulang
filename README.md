@@ -66,7 +66,6 @@ Dentre as limitações deste compilador, inclui-se a falta de suporte a funçõe
           | "(" <Expressao> ")"
           | "!" <Fator>
 
-Última coisa, Nossa BFN está aqui, caso dê para dar uma olhada
 ```
 
 
