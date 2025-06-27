@@ -8,7 +8,7 @@ public class pingulangCompiler/*@bgen(jjtree)*/implements pingulangCompilerTreeC
 
     while (true)
     {
-      System.out.println("Reading from standard input...");
+      System.out.println("Lendo codigo");
       System.out.print("digite :");
       try
       {
@@ -1478,117 +1478,111 @@ if (jjtc000) {
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_3R_Repeticao_265_15_22()
+  static private boolean jj_3R_Comando_229_5_16()
  {
-    if (jj_3R_For_284_3_29()) return true;
+    if (jj_3R_Bloco_323_3_20()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_227_5_16()
- {
-    if (jj_3R_Bloco_321_3_20()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_Identificador_416_3_24()
+  static private boolean jj_3R_Identificador_418_3_24()
  {
     if (jj_scan_token(ID)) return true;
     return false;
   }
 
-  static private boolean jj_3R_If_510_3_12()
+  static private boolean jj_3R_If_512_3_12()
  {
     if (jj_scan_token(IF)) return true;
     return false;
   }
 
-  static private boolean jj_3R_While_274_3_28()
+  static private boolean jj_3R_While_276_3_28()
  {
-    if (jj_3R_While_Token_528_3_33()) return true;
+    if (jj_3R_While_Token_530_3_33()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_225_5_15()
+  static private boolean jj_3R_Comando_227_5_15()
  {
-    if (jj_3R_EntradaSaida_309_3_19()) return true;
+    if (jj_3R_EntradaSaida_311_3_19()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Bloco_321_3_20()
+  static private boolean jj_3R_Bloco_323_3_20()
  {
-    if (jj_3R_InicioBloco_423_3_27()) return true;
+    if (jj_3R_InicioBloco_425_3_27()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_223_5_14()
+  static private boolean jj_3R_Comando_225_5_14()
  {
-    if (jj_3R_Atribuicao_237_3_18()) return true;
+    if (jj_3R_Atribuicao_239_3_18()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Comando_221_5_13()
+  static private boolean jj_3R_Comando_223_5_13()
  {
-    if (jj_3R_Repeticao_265_3_17()) return true;
+    if (jj_3R_Repeticao_267_3_17()) return true;
     return false;
   }
 
-  static private boolean jj_3R_EntradaSaida_311_7_26()
+  static private boolean jj_3R_EntradaSaida_313_7_26()
  {
-    if (jj_3R_Input_547_3_32()) return true;
+    if (jj_3R_Input_549_3_32()) return true;
     return false;
   }
 
   static private boolean jj_3_1()
  {
-    if (jj_3R_Condicional_253_3_9()) return true;
+    if (jj_3R_Condicional_255_3_9()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Repeticao_265_5_21()
+  static private boolean jj_3R_Repeticao_267_5_21()
  {
-    if (jj_3R_While_274_3_28()) return true;
+    if (jj_3R_While_276_3_28()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Input_547_3_32()
+  static private boolean jj_3R_Input_549_3_32()
  {
     if (jj_scan_token(INPUT)) return true;
     return false;
   }
 
-  static private boolean jj_3R_EntradaSaida_310_5_25()
+  static private boolean jj_3R_EntradaSaida_312_5_25()
  {
-    if (jj_3R_Print_541_3_31()) return true;
+    if (jj_3R_Print_543_3_31()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Repeticao_265_3_17()
+  static private boolean jj_3R_Repeticao_267_3_17()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_Repeticao_265_5_21()) {
+    if (jj_3R_Repeticao_267_5_21()) {
     jj_scanpos = xsp;
-    if (jj_3R_Repeticao_265_15_22()) {
+    if (jj_3R_Repeticao_267_15_22()) {
     jj_scanpos = xsp;
-    if (jj_3R_Repeticao_265_23_23()) return true;
+    if (jj_3R_Repeticao_267_23_23()) return true;
     }
     }
     return false;
   }
 
-  static private boolean jj_3R_Comando_217_3_11()
+  static private boolean jj_3R_Comando_219_3_11()
  {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_1()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_221_5_13()) {
+    if (jj_3R_Comando_223_5_13()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_223_5_14()) {
+    if (jj_3R_Comando_225_5_14()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_225_5_15()) {
+    if (jj_3R_Comando_227_5_15()) {
     jj_scanpos = xsp;
-    if (jj_3R_Comando_227_5_16()) return true;
+    if (jj_3R_Comando_229_5_16()) return true;
     }
     }
     }
@@ -1596,18 +1590,18 @@ if (jjtc000) {
     return false;
   }
 
-  static private boolean jj_3R_EntradaSaida_309_3_19()
+  static private boolean jj_3R_EntradaSaida_311_3_19()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_EntradaSaida_310_5_25()) {
+    if (jj_3R_EntradaSaida_312_5_25()) {
     jj_scanpos = xsp;
-    if (jj_3R_EntradaSaida_311_7_26()) return true;
+    if (jj_3R_EntradaSaida_313_7_26()) return true;
     }
     return false;
   }
 
-  static private boolean jj_3R_Print_541_3_31()
+  static private boolean jj_3R_Print_543_3_31()
  {
     if (jj_scan_token(PRINT)) return true;
     return false;
@@ -1615,76 +1609,82 @@ if (jjtc000) {
 
   static private boolean jj_3_2()
  {
-    if (jj_3R_Else_516_3_10()) return true;
-    if (jj_3R_Comando_217_3_11()) return true;
+    if (jj_3R_Else_518_3_10()) return true;
+    if (jj_3R_Comando_219_3_11()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Condicional_253_3_9()
+  static private boolean jj_3R_Condicional_255_3_9()
  {
-    if (jj_3R_If_510_3_12()) return true;
+    if (jj_3R_If_512_3_12()) return true;
     if (jj_scan_token(36)) return true;
     return false;
   }
 
-  static private boolean jj_3R_For_Token_534_3_34()
+  static private boolean jj_3R_For_Token_536_3_34()
  {
     if (jj_scan_token(FOR)) return true;
     return false;
   }
 
-  static private boolean jj_3R_DoWhile_298_3_30()
+  static private boolean jj_3R_DoWhile_300_3_30()
  {
-    if (jj_3R_Do_522_3_35()) return true;
+    if (jj_3R_Do_524_3_35()) return true;
     return false;
   }
 
-  static private boolean jj_3R_While_Token_528_3_33()
+  static private boolean jj_3R_While_Token_530_3_33()
  {
     if (jj_scan_token(WHILE)) return true;
     return false;
   }
 
-  static private boolean jj_3R_Do_522_3_35()
+  static private boolean jj_3R_Do_524_3_35()
  {
     if (jj_scan_token(DO)) return true;
     return false;
   }
 
-  static private boolean jj_3R_Repeticao_265_23_23()
+  static private boolean jj_3R_Repeticao_267_23_23()
  {
-    if (jj_3R_DoWhile_298_3_30()) return true;
+    if (jj_3R_DoWhile_300_3_30()) return true;
     return false;
   }
 
-  static private boolean jj_3R_For_284_3_29()
+  static private boolean jj_3R_For_286_3_29()
  {
-    if (jj_3R_For_Token_534_3_34()) return true;
+    if (jj_3R_For_Token_536_3_34()) return true;
     return false;
   }
 
-  static private boolean jj_3R_Atribuicao_237_3_18()
+  static private boolean jj_3R_Atribuicao_239_3_18()
  {
-    if (jj_3R_Identificador_416_3_24()) return true;
+    if (jj_3R_Identificador_418_3_24()) return true;
     return false;
   }
 
-  static private boolean jj_3R_InicioBloco_423_3_27()
+  static private boolean jj_3R_InicioBloco_425_3_27()
  {
     if (jj_scan_token(INICIO_BLOCO)) return true;
     return false;
   }
 
-  static private boolean jj_3R_Else_516_3_10()
+  static private boolean jj_3R_Else_518_3_10()
  {
     if (jj_scan_token(ELSE)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_Repeticao_267_15_22()
+ {
+    if (jj_3R_For_286_3_29()) return true;
     return false;
   }
 
   static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
   static public pingulangCompilerTokenManager token_source;
-  static SimpleCharStream jj_input_stream;
+  static JavaCharStream jj_input_stream;
   /** Current token. */
   static public Token token;
   /** Next token. */
@@ -1723,7 +1723,7 @@ if (jjtc000) {
 	   throw new Error();
 	 }
 	 jj_initialized_once = true;
-	 try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
+	 try { jj_input_stream = new JavaCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
 	 token_source = new pingulangCompilerTokenManager(jj_input_stream);
 	 token = new Token();
 	 jj_ntk = -1;
@@ -1757,7 +1757,7 @@ if (jjtc000) {
 	   throw new Error();
 	 }
 	 jj_initialized_once = true;
-	 jj_input_stream = new SimpleCharStream(stream, 1, 1);
+	 jj_input_stream = new JavaCharStream(stream, 1, 1);
 	 token_source = new pingulangCompilerTokenManager(jj_input_stream);
 	 token = new Token();
 	 jj_ntk = -1;
@@ -1769,7 +1769,7 @@ if (jjtc000) {
   /** Reinitialise. */
   static public void ReInit(java.io.Reader stream) {
 	if (jj_input_stream == null) {
-	   jj_input_stream = new SimpleCharStream(stream, 1, 1);
+	   jj_input_stream = new JavaCharStream(stream, 1, 1);
 	} else {
 	   jj_input_stream.ReInit(stream, 1, 1);
 	}

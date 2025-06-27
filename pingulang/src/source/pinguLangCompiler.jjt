@@ -4,6 +4,8 @@
 options
 {
   static = true;
+  JAVA_UNICODE_ESCAPE = true;
+  UNICODE_INPUT = true;
 }
 
 PARSER_BEGIN(pingulangCompiler)
@@ -16,7 +18,7 @@ public class pingulangCompiler
     
     while (true)
     {
-      System.out.println("Reading from standard input...");
+      System.out.println("Lendo codigo");
       System.out.print("digite :");
       try
       {

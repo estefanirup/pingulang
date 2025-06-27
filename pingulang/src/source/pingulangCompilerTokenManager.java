@@ -689,6 +689,9 @@ static private int jjStartNfaWithStates_0(int pos, int kind, int state)
    return jjMoveNfa_0(state, pos + 1);
 }
 static final long[] jjbitVec0 = {
+   0xfffffffffffffffeL, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL
+};
+static final long[] jjbitVec2 = {
    0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
 };
 static private int jjMoveNfa_0(int startState, int curPos)
@@ -985,6 +988,9 @@ static private int jjMoveNfa_0(int startState, int curPos)
       }
       else
       {
+         int hiByte = (curChar >> 8);
+         int i1 = hiByte >> 6;
+         long l1 = 1L << (hiByte & 077);
          int i2 = (curChar & 0xff) >> 6;
          long l2 = 1L << (curChar & 077);
          do
@@ -992,27 +998,27 @@ static private int jjMoveNfa_0(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 13:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      jjstateSet[jjnewStateCnt++] = 14;
                   break;
                case 18:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      { jjAddStates(6, 8); }
                   break;
                case 26:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      { jjAddStates(0, 2); }
                   break;
                case 31:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      { jjCheckNAddTwoStates(31, 32); }
                   break;
                case 33:
                case 34:
-                  if ((jjbitVec0[i2] & l2) != 0L)
+                  if (jjCanMove_0(hiByte, i1, i2, l1, l2))
                      { jjCheckNAddTwoStates(34, 32); }
                   break;
-               default : break;
+               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;
             }
          } while(i != startsAt);
       }
@@ -1067,6 +1073,18 @@ static protected Token jjFillToken()
 static final int[] jjnextStates = {
    26, 27, 29, 37, 38, 39, 18, 19, 21, 13, 15, 25, 30, 33, 35, 
 };
+private static final boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, long l2)
+{
+   switch(hiByte)
+   {
+      case 0:
+         return ((jjbitVec2[i2] & l2) != 0L);
+      default :
+         if ((jjbitVec0[i1] & l1) != 0L)
+            return true;
+         return false;
+   }
+}
 
 static int curLexState = 0;
 static int defaultLexState = 0;
@@ -1189,7 +1207,7 @@ static private void jjCheckNAddStates(int start, int end)
 }
 
     /** Constructor. */
-    public pingulangCompilerTokenManager(SimpleCharStream stream){
+    public pingulangCompilerTokenManager(JavaCharStream stream){
 
       if (input_stream != null)
         throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
@@ -1198,14 +1216,14 @@ static private void jjCheckNAddStates(int start, int end)
   }
 
   /** Constructor. */
-  public pingulangCompilerTokenManager (SimpleCharStream stream, int lexState){
+  public pingulangCompilerTokenManager (JavaCharStream stream, int lexState){
     ReInit(stream);
     SwitchTo(lexState);
   }
 
   /** Reinitialise parser. */
   
-  static public void ReInit(SimpleCharStream stream)
+  static public void ReInit(JavaCharStream stream)
   {
 
 
@@ -1226,7 +1244,7 @@ static private void jjCheckNAddStates(int start, int end)
   }
 
   /** Reinitialise parser. */
-  static public void ReInit(SimpleCharStream stream, int lexState)
+  static public void ReInit(JavaCharStream stream, int lexState)
   
   {
     ReInit(stream);
@@ -1265,7 +1283,7 @@ static final long[] jjtoSpecial = {
 static final long[] jjtoMore = {
    0x0L, 
 };
-    static protected SimpleCharStream  input_stream;
+    static protected JavaCharStream  input_stream;
 
     static private final int[] jjrounds = new int[41];
     static private final int[] jjstateSet = new int[2 * 41];
