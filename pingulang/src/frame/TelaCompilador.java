@@ -34,6 +34,13 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import source.pingulangCompiler;  
 import source.SimpleNode;
 import source.ParseException;
@@ -50,6 +57,8 @@ public class TelaCompilador extends JPanel implements ActionListener{
 	private JButton compilaBotao; //Botao para compilar o codigo
 	private JScrollPane codigoScroll;
 	private ContadorLinha contadorLinhas;
+	
+	private JButton abrirArquivoBotao;
 	
 	//paleta de cores
 	private final Color SOFT_PINK = new Color(0xFE, 0xC5, 0xF6); // FEC5F6
@@ -123,6 +132,48 @@ public class TelaCompilador extends JPanel implements ActionListener{
                 compilaBotao.setBackground(BUTTON_PINK);
             }
         });
+        
+        // Botao para abrir o arquivo
+        abrirArquivoBotao = new JButton("Abrir Arquivo");
+        abrirArquivoBotao.setBackground(BUTTON_PINK);
+        abrirArquivoBotao.setForeground(Color.BLACK);
+        abrirArquivoBotao.setFocusPainted(false);
+        abrirArquivoBotao.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(CONTRAST_PINK, 2),
+            BorderFactory.createEmptyBorder(5, 15, 5, 15)
+        ));
+        abrirArquivoBotao.setFont(compilaBotao.getFont());
+
+        // Hover efeito igual ao compilaBotao
+        abrirArquivoBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                abrirArquivoBotao.setBackground(CONTRAST_PINK);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                abrirArquivoBotao.setBackground(BUTTON_PINK);
+            }
+        });
+
+        // Acaoo ao clicar para abrir o arquivo:
+        abrirArquivoBotao.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            int retorno = chooser.showOpenDialog(this);
+            if (retorno == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                    String linha;
+                    StringBuilder conteudo = new StringBuilder();
+                    while ((linha = reader.readLine()) != null) {
+                        conteudo.append(linha).append("\n");
+                    }
+                    codigoArea.setText(conteudo.toString());
+                    retornoArea.setText(""); // limpa área de retorno ao abrir novo arquivo
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao abrir o arquivo: " + ex.getMessage());
+                }
+            }
+        });
+
 
         //contador de linhas
         codigoScroll = new JScrollPane(codigoArea);
@@ -138,6 +189,8 @@ public class TelaCompilador extends JPanel implements ActionListener{
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setBackground(DARK_PINK);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        
+        buttonPanel.add(abrirArquivoBotao);
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
