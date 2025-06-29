@@ -330,19 +330,52 @@ void Comando() :
 {/*@bgen(jjtree) Comando */
   try {
 /*@egen*/
-  try { 
+  try {
     Condicional()
-    |
-    Repeticao()
-    |
-    Atribuicao()  FimLinha()
-    |
-    EntradaSaida() FimLinha()
-    |
-    Bloco()
+  | Repeticao()
+  | ComandoID()
+  | EntradaSaida() FimLinha()
+  | Bloco()
   } catch (ParseException e) {
-         consumeUntil(g,e,"Comando");
-         }/*@bgen(jjtree)*/
+    consumeUntil(g,e,"Comando");
+  }/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+/* para garantir LL1 sem ambiguidade */
+void ComandoID() :
+{/*@bgen(jjtree) ComandoID */
+ SimpleNode jjtn000 = new SimpleNode(JJTCOMANDOID);
+ boolean jjtc000 = true;
+ jjtree.openNodeScope(jjtn000);
+/*@egen*/RecoverySet g = Follow.Comando;}
+{/*@bgen(jjtree) ComandoID */
+  try {
+/*@egen*/
+  try {
+    Atribuicao() FimLinha()
+  } catch (ParseException e) {
+    consumeUntil(g,e,"ComandoID");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -375,16 +408,18 @@ void Atribuicao() :
 {/*@bgen(jjtree) Atribuicao */
   try {
 /*@egen*/
-  try { 
-    Identificador() 
+  try {
+    Identificador()
     (
         Igual() Expressao()
-        |
-        ( Aumento() | Diminui() | Multiplica() | Divide() ) Expressao()
+      | Aumento() Expressao()
+      | Diminui() Expressao()
+      | Multiplica() Expressao()
+      | Divide() Expressao()
     )
   } catch (ParseException e) {
-         consumeUntil(g,e,"Atribuicao");
-         }/*@bgen(jjtree)*/
+    consumeUntil(g,e,"Atribuicao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -417,12 +452,12 @@ void Condicional() :
 {/*@bgen(jjtree) Condicional */
   try {
 /*@egen*/
-  try { 
+  try {
     If() "(" Expressao() ")" Comando()
     [ Else() Comando() ]
   } catch (ParseException e) {
-         consumeUntil(g,e,"Condicional");
-         }/*@bgen(jjtree)*/
+    consumeUntil(g,e,"Condicional");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -454,11 +489,14 @@ void Repeticao() :
 /*@egen*/RecoverySet g = Follow.Repeticao;}
 {/*@bgen(jjtree) Repeticao */
   try {
-/*@egen*/ try { 
-    While() | For() | DoWhile()
+/*@egen*/
+  try {
+    While()
+  | For()
+  | DoWhile()
   } catch (ParseException e) {
-         consumeUntil(g,e,"Repeticao");
-         }/*@bgen(jjtree)*/
+    consumeUntil(g,e,"Repeticao");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -490,11 +528,11 @@ void While() :
 {/*@bgen(jjtree) While */
   try {
 /*@egen*/
-  try { 
+  try {
     While_Token() "(" Expressao() ")" Comando()
   } catch (ParseException e) {
-         consumeUntil(g,e,"While");
-         }/*@bgen(jjtree)*/
+    consumeUntil(g,e,"While");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -517,6 +555,7 @@ void While() :
 /*@egen*/
 }
 
+
 void For() :
 {/*@bgen(jjtree) For */
  SimpleNode jjtn000 = new SimpleNode(JJTFOR);
@@ -526,15 +565,11 @@ void For() :
 {/*@bgen(jjtree) For */
   try {
 /*@egen*/
-  try { 
-    For_Token() "("
-      Atribuicao()
-    "," Expressao()
-    "," Atribuicao()
-    ")" Comando()
+  try {
+    For_Token() "(" Atribuicao() "," Expressao() "," Atribuicao() ")" Comando()
   } catch (ParseException e) {
-         consumeUntil(g,e,"For");
-         }/*@bgen(jjtree)*/
+    consumeUntil(g,e,"For");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -566,11 +601,11 @@ void DoWhile() :
 {/*@bgen(jjtree) DoWhile */
   try {
 /*@egen*/
-  try { 
-    Do() Comando() While() "(" Expressao() ")" FimLinha()
+  try {
+    Do() Comando() While_Token() "(" Expressao() ")" FimLinha()
   } catch (ParseException e) {
-         consumeUntil(g,e,"DoWhile");
-         }/*@bgen(jjtree)*/
+    consumeUntil(g,e,"DoWhile");
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);

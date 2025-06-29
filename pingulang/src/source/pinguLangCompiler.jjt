@@ -216,91 +216,100 @@ void Variavel() :
 void Comando() :
 {RecoverySet g = Follow.Comando;}
 {
-  try { 
+  try {
     Condicional()
-    |
-    Repeticao()
-    |
-    Atribuicao()  FimLinha()
-    |
-    EntradaSaida() FimLinha()
-    |
-    Bloco()
+  | Repeticao()
+  | ComandoID()
+  | EntradaSaida() FimLinha()
+  | Bloco()
   } catch (ParseException e) {
-         consumeUntil(g,e,"Comando");
-         }
+    consumeUntil(g,e,"Comando");
+  }
+}
+
+/* para garantir LL1 sem ambiguidade */
+void ComandoID() :
+{RecoverySet g = Follow.Comando;}
+{
+  try {
+    Atribuicao() FimLinha()
+  } catch (ParseException e) {
+    consumeUntil(g,e,"ComandoID");
+  }
 }
 
 /* ATRIBUIÇÕES */
 void Atribuicao() :
 {RecoverySet g = Follow.Atribuicao;}
 {
-  try { 
-    Identificador() 
+  try {
+    Identificador()
     (
         Igual() Expressao()
-        |
-        ( Aumento() | Diminui() | Multiplica() | Divide() ) Expressao()
+      | Aumento() Expressao()
+      | Diminui() Expressao()
+      | Multiplica() Expressao()
+      | Divide() Expressao()
     )
   } catch (ParseException e) {
-         consumeUntil(g,e,"Atribuicao");
-         }
+    consumeUntil(g,e,"Atribuicao");
+  }
 }
 
 /* ESTRUTURAS CONDICIONAIS */
 void Condicional() :
 {RecoverySet g = Follow.Condicional;}
 {
-  try { 
+  try {
     If() "(" Expressao() ")" Comando()
     [ Else() Comando() ]
   } catch (ParseException e) {
-         consumeUntil(g,e,"Condicional");
-         }
+    consumeUntil(g,e,"Condicional");
+  }
 }
 
 /* ESTRUTURAS DE REPETIÇÃO */
 void Repeticao() :
 {RecoverySet g = Follow.Repeticao;}
-{ try { 
-    While() | For() | DoWhile()
+{
+  try {
+    While()
+  | For()
+  | DoWhile()
   } catch (ParseException e) {
-         consumeUntil(g,e,"Repeticao");
-         }
+    consumeUntil(g,e,"Repeticao");
+  }
 }
 
 void While() :
 {RecoverySet g = Follow.While;}
 {
-  try { 
+  try {
     While_Token() "(" Expressao() ")" Comando()
   } catch (ParseException e) {
-         consumeUntil(g,e,"While");
-         }
+    consumeUntil(g,e,"While");
+  }
 }
+
 
 void For() :
 {RecoverySet g = Follow.For;}
 {
-  try { 
-    For_Token() "("
-      Atribuicao()
-    "," Expressao()
-    "," Atribuicao()
-    ")" Comando()
+  try {
+    For_Token() "(" Atribuicao() "," Expressao() "," Atribuicao() ")" Comando()
   } catch (ParseException e) {
-         consumeUntil(g,e,"For");
-         }
+    consumeUntil(g,e,"For");
+  }
 }
 
 void DoWhile() :
 {RecoverySet g = Follow.DoWhile;}
 {
-  try { 
-    Do() Comando() While() "(" Expressao() ")" FimLinha()
+  try {
+    Do() Comando() While_Token() "(" Expressao() ")" FimLinha()
   } catch (ParseException e) {
-         consumeUntil(g,e,"DoWhile");
-         }
+    consumeUntil(g,e,"DoWhile");
+  }
 }
 
 /* ENTRADA/SAÍDA */
