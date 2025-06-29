@@ -30,6 +30,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 import source.pingulangCompiler;  
 import source.SimpleNode;
 import source.ParseException;
@@ -40,6 +44,9 @@ public class TelaCompilador extends JPanel implements ActionListener{
 	private pingulangCompiler parser = null; //parser
 	private JTextArea codigoArea; //Area de texto para editar o codigo
 	private JTextArea retornoArea; //Area de display do retorno do compilador
+	
+	private JTree arvoreSintatica;
+	private DefaultMutableTreeNode raizArvore;
 	private JButton compilaBotao; //Botao para compilar o codigo
 	private JScrollPane codigoScroll;
 	private ContadorLinha contadorLinhas;
@@ -65,6 +72,13 @@ public class TelaCompilador extends JPanel implements ActionListener{
         codigoArea = new JTextArea();
         retornoArea = new JTextArea();
         
+        // Iniciando a arvore com um no raiz gernerico
+        raizArvore = new DefaultMutableTreeNode("Arvore Sintatica");
+        arvoreSintatica = new JTree(raizArvore);
+        arvoreSintatica.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 14));
+        arvoreSintatica.setBackground(SOFT_PINK);
+        arvoreSintatica.setForeground(TEXT_COLOR);
+
         //UTF-8
         Font font = new Font("DejaVu Sans Mono", Font.PLAIN, 14);
         codigoArea.setFont(font);
@@ -150,7 +164,15 @@ public class TelaCompilador extends JPanel implements ActionListener{
         containerPanel.add(buttonPanel, gbcMain);
 
         //dividir areas
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, containerPanel, new JScrollPane(retornoArea));
+        JScrollPane retornoScroll = new JScrollPane(retornoArea);
+        JScrollPane arvoreScroll = new JScrollPane(arvoreSintatica);
+
+        JSplitPane painelInferior = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, retornoScroll, arvoreScroll);
+        painelInferior.setDividerLocation(0.5);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, containerPanel, painelInferior);
+
+        
         splitPane.setDividerLocation(500);
         splitPane.setBorder(BorderFactory.createLineBorder(DARK_PINK, 5));
         splitPane.setBackground(DARK_PINK);
@@ -224,6 +246,16 @@ public class TelaCompilador extends JPanel implements ActionListener{
         tela.pack();
         tela.setVisible(true);
 	}
+	
+	private void criarArvoreSintatica(SimpleNode no, DefaultMutableTreeNode noPai) {
+	    DefaultMutableTreeNode novoNo = new DefaultMutableTreeNode(no.toString());
+	    noPai.add(novoNo);
+	    
+	    for (int i = 0; i < no.jjtGetNumChildren(); i++) {
+	        SimpleNode filho = (SimpleNode) no.jjtGetChild(i);
+	        criarArvoreSintatica(filho, novoNo);
+	    }
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -252,7 +284,10 @@ public class TelaCompilador extends JPanel implements ActionListener{
             SimpleNode n = pingulangCompiler.Programa();
             System.err.println("Código compilado com sucesso");
             System.err.flush();
-            n.dump("");
+            raizArvore.removeAllChildren(); // limpa árvore anterior
+            criarArvoreSintatica(n, raizArvore);
+            ((DefaultTreeModel) arvoreSintatica.getModel()).reload();
+
             
         } catch (ParseException ex) {
             System.err.println("Erro de sintaxe:");
