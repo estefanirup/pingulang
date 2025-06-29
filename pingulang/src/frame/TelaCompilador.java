@@ -45,6 +45,8 @@ import source.pingulangCompiler;
 import source.SimpleNode;
 import source.ParseException;
 import source.TokenMgrError;
+import source.Token;
+
 
 public class TelaCompilador extends JPanel implements ActionListener{
 	
@@ -334,9 +336,29 @@ public class TelaCompilador extends JPanel implements ActionListener{
                 parser.ReInit(input);
             }
             
+            
+            Token t;
+            System.err.println("Tokens reconhecidos:");
+            while (true) {
+                t = parser.getNextToken();
+                if (t.image.equals("") || t.kind == 0) break;
+
+                System.err.printf("Classe: %-15s Lexema: %-15s Linha: %d Coluna: %d%n",
+                    pingulangCompiler.tokenImage[t.kind],
+                    t.image,
+                    t.beginLine,
+                    t.beginColumn
+                );
+            }
+            System.err.println("----------------------");
+
+            // Reinicializa parser para análise sintática após exibir tokens
+            parser.ReInit(new StringReader(codigo));
             SimpleNode n = pingulangCompiler.Programa();
             System.err.println("Código compilado com sucesso");
             System.err.flush();
+
+            
             raizArvore.removeAllChildren(); // limpa árvore anterior
             criarArvoreSintatica(n, raizArvore);
             ((DefaultTreeModel) arvoreSintatica.getModel()).reload();
