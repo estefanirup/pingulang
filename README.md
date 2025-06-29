@@ -305,3 +305,88 @@ ISSO EH TUDO P-PESSOAL
 ```
 daspdkas.[
 ```
+
+# Método de sincronização do pânico
+
+### Primeiro mostla errado, segundo válido
+```
+E LA VAMOS NOS
+MOSTLA "Sem parenteses" PINGU
+MOSTLA("Depois do erro") PINGU
+ISSO EH TUDO P-PESSOAL
+
+```
+
+### Falta pingu
+```
+E LA VAMOS NOS
+IO x = 5 PINGU
+FLORZINHA y = 3.14   // <- falta PINGU aqui!
+SID z = A GENTE VAI MORRER PINGU
+MOSTLA("fim") PINGU
+ISSO EH TUDO P-PESSOAL
+
+```
+
+### Expressão vazia
+```
+E LA VAMOS NOS
+YABBA DABBA DOO {
+  ESCLEVE(x) PINGU
+} A EH REPETE ( ) PINGU
+ISSO EH TUDO P-PESSOAL
+
+```
+
+### Operador errado com declaração
+```
+E LA VAMOS NOS
+IO x = 5 PINGU
+SID y == TRUE PINGU
+FORCA G ( z = 0, z < 10 z = z + 1 ) MOSTLA("loop") PINGU
+ESCLEVE(x) PINGU
+ISSO EH TUDO P-PESSOAL
+
+```
+
+### Operador não conhecido
+```
+E LA VAMOS NOS
+FORCA G ( x = 1, x < 10, x ++ ) MOSTLA("oi") PINGU
+MOSTLA("fim") PINGU
+ISSO EH TUDO P-PESSOAL
+
+```
+
+### Operador errado
+```
+E LA VAMOS NOS
+IO x = 5 PINGU
+FLORZINHA y == 3.2 PINGU
+MOSTLA("oi") PINGU
+ISSO EH TUDO P-PESSOAL
+
+```
+
+### Código com IF e expressão booleana inválida
+```
+E LA VAMOS NOS
+SID cond = A GENTE VAI VIVER PINGU
+SERIA cond {
+  MOSTLA("Condicional ok") PINGU
+}
+ISSO EH TUDO P-PESSOAL
+
+```
+
+### Código com FOR e erro de sintaxe na expressão final
+```
+E LA VAMOS NOS
+IO i = 0 PINGU
+FORCA G (i = 0, i < 10, ) {
+  MOSTLA("Iteração") PINGU
+}
+ISSO EH TUDO P-PESSOAL
+
+```
+
