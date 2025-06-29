@@ -217,7 +217,6 @@ void Comando() :
 {RecoverySet g = Follow.Comando;}
 {
   try { 
-    LOOKAHEAD(2)
     Condicional()
     |
     Repeticao()
@@ -254,7 +253,7 @@ void Condicional() :
 {
   try { 
     If() "(" Expressao() ")" Comando()
-    [ LOOKAHEAD(2) Else() Comando() ]
+    [ Else() Comando() ]
   } catch (ParseException e) {
          consumeUntil(g,e,"Condicional");
          }

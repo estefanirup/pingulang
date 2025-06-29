@@ -331,7 +331,6 @@ void Comando() :
   try {
 /*@egen*/
   try { 
-    LOOKAHEAD(2)
     Condicional()
     |
     Repeticao()
@@ -420,7 +419,7 @@ void Condicional() :
 /*@egen*/
   try { 
     If() "(" Expressao() ")" Comando()
-    [ LOOKAHEAD(2) Else() Comando() ]
+    [ Else() Comando() ]
   } catch (ParseException e) {
          consumeUntil(g,e,"Condicional");
          }/*@bgen(jjtree)*/
