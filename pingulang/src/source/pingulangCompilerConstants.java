@@ -72,6 +72,12 @@ public interface pingulangCompilerConstants {
   int STRING = 33;
   /** RegularExpression Id. */
   int ID = 34;
+  /** RegularExpression Id. */
+  int VIRGULA = 35;
+  /** RegularExpression Id. */
+  int ABRE_PARENTESES = 36;
+  /** RegularExpression Id. */
+  int FECHA_PARENTESES = 37;
 
   /** Lexical state. */
   int DEFAULT = 0;

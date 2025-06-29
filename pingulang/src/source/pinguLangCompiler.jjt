@@ -153,6 +153,13 @@ TOKEN : {
   | < ID: ["a"-"z"] (["a"-"z","A"-"Z","0"-"9","_"])* >
 }
 
+/* SÍMBOLOS DE PONTUAÇÃO */
+TOKEN : {
+    < VIRGULA: "," >
+  | < ABRE_PARENTESES: "(" >
+  | < FECHA_PARENTESES: ")" >
+}
+
 /* REGRAS GRAMATICAIS */
 SimpleNode Programa() :
 {RecoverySet g = Follow.Programa;}
@@ -190,13 +197,13 @@ void ListaVariaveis() :
 {
    try { 
     Identificador() ( ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() ) Expressao() )?
-    ( "," Identificador() ( ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() ) Expressao() )? )*
+    ( Virgula() Identificador() ( ( Igual() | Aumento() | Diminui() | Multiplica() | Divide() ) Expressao() )? )*
     } catch (ParseException e) {
          consumeUntil(g,e,"ListaVariaveis");
          }
 }
 
-
+/*
 void Variavel() :
 {RecoverySet g = Follow.Variavel;}
 {
@@ -210,6 +217,7 @@ void Variavel() :
          consumeUntil(g,e,"Variavel");
          }
 }
+*/
 
 
 /* REGRAS DE COMANDOS */
@@ -261,7 +269,7 @@ void Condicional() :
 {RecoverySet g = Follow.Condicional;}
 {
   try {
-    If() "(" Expressao() ")" Comando()
+    If() AbreParenteses() Expressao() FechaParenteses() Comando()
     [ Else() Comando() ]
   } catch (ParseException e) {
     consumeUntil(g,e,"Condicional");
@@ -285,7 +293,7 @@ void While() :
 {RecoverySet g = Follow.While;}
 {
   try {
-    While_Token() "(" Expressao() ")" Comando()
+    While_Token() AbreParenteses() Expressao() FechaParenteses() Comando()
   } catch (ParseException e) {
     consumeUntil(g,e,"While");
   }
@@ -296,7 +304,7 @@ void For() :
 {RecoverySet g = Follow.For;}
 {
   try {
-    For_Token() "(" Atribuicao() "," Expressao() "," Atribuicao() ")" Comando()
+    For_Token() AbreParenteses() Atribuicao() Virgula() Expressao() Virgula() Atribuicao() FechaParenteses() Comando()
   } catch (ParseException e) {
     consumeUntil(g,e,"For");
   }
@@ -306,7 +314,7 @@ void DoWhile() :
 {RecoverySet g = Follow.DoWhile;}
 {
   try {
-    Do() Comando() While_Token() "(" Expressao() ")" FimLinha()
+    Do() Comando() While_Token() AbreParenteses() Expressao() FechaParenteses() FimLinha()
   } catch (ParseException e) {
     consumeUntil(g,e,"DoWhile");
   }
@@ -317,8 +325,8 @@ void EntradaSaida() :
 {RecoverySet g = Follow.EntradaSaida;}
 {
   try { 
-    Print() "(" Expressao() ")" 
-    | Input() "(" Identificador() ")"
+    Print() AbreParenteses() Expressao() FechaParenteses()
+    | Input() AbreParenteses() Identificador() FechaParenteses()
   } catch (ParseException e) {
          consumeUntil(g,e,"EntradaSaida");
          }
@@ -562,4 +570,22 @@ void FimLinha():
 {}
 {
   <PINGU>
+}
+
+void Virgula():
+{}
+{
+  <VIRGULA>
+}
+
+void AbreParenteses():
+{}
+{
+  <ABRE_PARENTESES>
+}
+
+void FechaParenteses():
+{}
+{
+  <FECHA_PARENTESES>
 }
