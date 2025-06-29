@@ -2,6 +2,7 @@ package recovery;
 
 import java.util.*;
 
+
 public class Follow {
     
     public static final RecoverySet Programa = new RecoverySet();
@@ -17,6 +18,7 @@ public class Follow {
     public static final RecoverySet DoWhile = new RecoverySet();
     public static final RecoverySet EntradaSaida = new RecoverySet();
     public static final RecoverySet Bloco = new RecoverySet();
+    
     public static final RecoverySet Expressao = new RecoverySet();
     public static final RecoverySet ExpressaoLogica = new RecoverySet();
     public static final RecoverySet ExpressaoRelacional = new RecoverySet();
@@ -25,68 +27,71 @@ public class Follow {
     public static final RecoverySet Fator = new RecoverySet();
 
     static {
-        // Programa → ... FIM_PROGRAMA
+    	
+        // Programa termina com FIM_PROGRAMA
         Programa.add(source.pingulangCompilerConstants.FIM_PROGRAMA);
 
-        // Declaracao → pode vir outra Declaracao, Comando ou FIM_PROGRAMA
-        Declaracao.add(source.pingulangCompilerConstants.INT_TYPE);
-        Declaracao.add(source.pingulangCompilerConstants.FLOAT_TYPE);
-        Declaracao.add(source.pingulangCompilerConstants.BOOL_TYPE);
-        Declaracao.add(source.pingulangCompilerConstants.CHAR_TYPE);
+        // Declaracoes seguidas por comandos ou fim
         Declaracao.add(source.pingulangCompilerConstants.IF);
-        Declaracao.add(source.pingulangCompilerConstants.WHILE);
         Declaracao.add(source.pingulangCompilerConstants.FOR);
+        Declaracao.add(source.pingulangCompilerConstants.WHILE);
         Declaracao.add(source.pingulangCompilerConstants.DO);
         Declaracao.add(source.pingulangCompilerConstants.ID);
         Declaracao.add(source.pingulangCompilerConstants.PRINT);
         Declaracao.add(source.pingulangCompilerConstants.INPUT);
         Declaracao.add(source.pingulangCompilerConstants.INICIO_BLOCO);
-        Declaracao.add(source.pingulangCompilerConstants.FIM_PROGRAMA);
+        Declaracao.add(source.pingulangCompilerConstants.FIM_PROGRAMA); // pode haver só declaração
 
-        // ListaVariaveis → FimLinha
+        // Lista de variáveis termina em <PINGU>
         ListaVariaveis.add(source.pingulangCompilerConstants.PINGU);
 
-        // Comando → pode vir outro comando, fim de programa ou fim de bloco
-        Comando.add(source.pingulangCompilerConstants.FIM_PROGRAMA);
+        // Comandos ocorrem em sequência ou dentro de blocos
         Comando.add(source.pingulangCompilerConstants.FIM_BLOCO);
+        Comando.add(source.pingulangCompilerConstants.IF);
+        Comando.add(source.pingulangCompilerConstants.FOR);
+        Comando.add(source.pingulangCompilerConstants.WHILE);
+        Comando.add(source.pingulangCompilerConstants.DO);
+        Comando.add(source.pingulangCompilerConstants.ID);
+        Comando.add(source.pingulangCompilerConstants.PRINT);
+        Comando.add(source.pingulangCompilerConstants.INPUT);
+        Comando.add(source.pingulangCompilerConstants.FIM_PROGRAMA);
 
-        // ComandoID → mesmo Follow de Comando
-        ComandoID.union(Comando);
-
-        // Atribuicao → pode estar em ListaVariaveis (virgula), FimLinha ou dentro de for (fecha parênteses)
+        // Atribuições são seguidas por PINGU
         Atribuicao.add(source.pingulangCompilerConstants.PINGU);
-        Atribuicao.add(source.pingulangCompilerConstants.VIRGULA);
-        Atribuicao.add(source.pingulangCompilerConstants.FECHA_PARENTESES);
 
-        // Condicional → depois vem outro Comando
-        Condicional.union(Comando);
+        // Condicional pode ser seguida por outro comando ou fim de bloco
+        Condicional.add(source.pingulangCompilerConstants.FIM_BLOCO);
+        Condicional.add(source.pingulangCompilerConstants.IF);
+        Condicional.add(source.pingulangCompilerConstants.FOR);
+        Condicional.add(source.pingulangCompilerConstants.WHILE);
+        Condicional.add(source.pingulangCompilerConstants.DO);
+        Condicional.add(source.pingulangCompilerConstants.ID);
+        Condicional.add(source.pingulangCompilerConstants.PRINT);
+        Condicional.add(source.pingulangCompilerConstants.INPUT);
+        Condicional.add(source.pingulangCompilerConstants.ABRE_PARENTESES);
+        Condicional.add(source.pingulangCompilerConstants.FIM_PROGRAMA);
 
-        // Repetição → igual
-        Repeticao.union(Comando);
-        While.union(Comando);
-        For.union(Comando);
-        DoWhile.union(Comando);
+        // Repetição mesmo caso do condicional
+        Repeticao.addAll(Condicional);
 
-        // EntradaSaida → seguido de FimLinha
+        While.addAll(Condicional);
+        For.addAll(Condicional);
+        DoWhile.addAll(Condicional);
+
         EntradaSaida.add(source.pingulangCompilerConstants.PINGU);
 
-        // Bloco → mesma lógica do comando
-        Bloco.union(Comando);
+        Bloco.addAll(Condicional);
 
         // Expressões
         Expressao.add(source.pingulangCompilerConstants.FECHA_PARENTESES);
         Expressao.add(source.pingulangCompilerConstants.PINGU);
+        Expressao.add(source.pingulangCompilerConstants.VIRGULA);
 
-        ExpressaoLogica.union(Expressao);
-        ExpressaoRelacional.union(ExpressaoLogica);
-        ExpressaoRelacional.add(source.pingulangCompilerConstants.OP_LOGICO);
-
-        ExpressaoAritmetica.union(ExpressaoRelacional);
-        ExpressaoAritmetica.add(source.pingulangCompilerConstants.OP_RELACIONAL);
-
-        Termo.union(ExpressaoAritmetica);
-        Termo.add(source.pingulangCompilerConstants.OP_ARITMETICO);
-
-        Fator.union(Termo);
+        ExpressaoLogica.addAll(Expressao);
+        ExpressaoRelacional.addAll(Expressao);
+        ExpressaoAritmetica.addAll(Expressao);
+        Termo.addAll(Expressao);
+        Fator.addAll(Expressao);
     }
 }
+

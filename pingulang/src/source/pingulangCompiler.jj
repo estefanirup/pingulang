@@ -180,11 +180,12 @@ SimpleNode Programa() :
     ( Comando() )*
     Fim()
     {
-	return jjtn000;
+      return jjtn000;
     }
-      } catch(ParseException e) {
-         consumeUntil(g,e,"Programa");
-         }/*@bgen(jjtree)*/
+  } catch(ParseException e) {
+    consumeUntil(g, e, "Programa");
+    return jjtn000;  // <--- retorno garantido mesmo ap\u00f3s erro tratado
+  }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -205,8 +206,8 @@ SimpleNode Programa() :
     }
   }
 /*@egen*/
-    
 }
+
 
 void Declaracao() :
 {/*@bgen(jjtree) Declaracao */

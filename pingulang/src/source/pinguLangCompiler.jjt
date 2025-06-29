@@ -170,13 +170,14 @@ SimpleNode Programa() :
     ( Comando() )*
     Fim()
     {
-	return jjtThis;
+      return jjtThis;
     }
-      } catch(ParseException e) {
-         consumeUntil(g,e,"Programa");
-         }
-    
+  } catch(ParseException e) {
+    consumeUntil(g, e, "Programa");
+    return jjtThis;  // <--- retorno garantido mesmo após erro tratado
+  }
 }
+
 
 void Declaracao() :
 {RecoverySet g = Follow.Declaracao;}

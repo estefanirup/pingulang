@@ -129,7 +129,9 @@ public class pingulangCompiler/*@bgen(jjtree)*/implements pingulangCompilerTreeC
         Fim();
 {if ("" != null) return jjtn000;}
       } catch (ParseException e) {
-consumeUntil(g,e,"Programa");
+consumeUntil(g, e, "Programa");
+    {if ("" != null) return jjtn000;}  // <--- retorno garantido mesmo após erro tratado
+
       }
     } catch (Throwable jjte000) {
 if (jjtc000) {
