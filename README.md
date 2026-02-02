@@ -1,14 +1,151 @@
-# 🐧 Pingulang
+# 🐧 PinguLang
 
-PinguLang é um compilador em desenvolvimento baseado no JavaCC, com análise léxica/sintática e mensagens de erro em português. Suporta estruturas de controle (while, for, do-while, if-else), declaração de variáveis (com ou sem atribuição) e quatro tipos de dados: inteiro, flutuante, booleano e char. 
+Um compilador educacional desenvolvido com **JavaCC**, featuring análise léxica/sintática e mensagens de erro em português.
 
-Dentre as limitações deste compilador, inclui-se a falta de suporte a funções definidas pelo usuário, falta de estruturas de dados complexas(arrays e registros), dentre outros.
+![Java](https://img.shields.io/badge/Java-JavaCC-red)
+![Compiler](https://img.shields.io/badge/Type-Compiler-blue)
+
+## 📋 Sobre
+
+PinguLang é uma linguagem de programação criada para fins educacionais, com sintaxe divertida inspirada em personagens de desenhos animados. O compilador realiza análise léxica e sintática, com tratamento de erros amigável em português.
+
+## ✨ Características
+
+- 🔤 **4 tipos de dados:** inteiro, flutuante, booleano e char
+- 🔁 **Estruturas de controle:** while, for, do-while, if-else
+- 📝 **Declaração de variáveis** com ou sem atribuição
+- ⚠️ **Mensagens de erro** em português
+- 🔄 **Recuperação de erros** com método de sincronização do pânico
+
+## 📖 Sintaxe da Linguagem
+
+### Estrutura Básica
+
+```
+E LA VAMOS NOS
+    // código aqui
+ISSO EH TUDO P-PESSOAL
+```
+
+### Tipos de Dados
+
+| Tipo | Palavra-chave | Exemplo |
+|------|---------------|---------|
+| Inteiro | `IO` | `IO idade = 25 PINGU` |
+| Float | `FLORZINHA` | `FLORZINHA preco = 9.99 PINGU` |
+| Booleano | `SID` | `SID ativo = A GENTE VAI VIVER PINGU` |
+| Char | `PENELOPE CHARMOSA` | `PENELOPE CHARMOSA letra = 'A' PINGU` |
+
+### Estruturas de Controle
+
+**Condicional (if-else):**
+```
+SERIA (condicao) {
+    // código
+} OU SERA QUE NAO {
+    // else
+}
+```
+
+**While:**
+```
+A EH REPETE (condicao) {
+    // código
+}
+```
+
+**For:**
+```
+FORCA G (i = 0, i < 10, i += 1) {
+    // código
+}
+```
+
+**Do-While:**
+```
+YABBA DABBA DOO {
+    // código
+} A EH REPETE (condicao) PINGU
+```
+
+### Entrada e Saída
+
+```
+MOSTLA("Texto aqui") PINGU    // Output
+ESCLEVE(variavel) PINGU       // Input
+```
+
+## 📐 Gramática (BNF)
+
+```bnf
+<Programa> ::= "E LA VAMOS NOS" <Declaracoes> <Comandos> "ISSO EH TUDO P-PESSOAL"
+
+<Declaracao> ::= <Tipo> <ListaVariaveis> "PINGU"
+
+<Tipo> ::= "IO" | "FLORZINHA" | "SID" | "PENELOPE CHARMOSA"
+
+<Condicional> ::= "SERIA" "(" <Expressao> ")" <Comando> 
+                  [ "OU SERA QUE NAO" <Comando> ]
+
+<While> ::= "A EH REPETE" "(" <Expressao> ")" <Comando>
+
+<For> ::= "FORCA G" "(" <Atribuicao> "," <Expressao> "," <Atribuicao> ")" <Comando>
+
+<DoWhile> ::= "YABBA DABBA DOO" <Comando> "A EH REPETE" "(" <Expressao> ")" "PINGU"
+```
+
+## 💻 Exemplo Completo
+
+```
+E LA VAMOS NOS
+
+IO contador = 0 PINGU
+FLORZINHA soma = 0.0 PINGU
+
+A EH REPETE (contador < 5) {
+    MOSTLA("Contador: ") PINGU
+    MOSTLA(contador) PINGU
+    soma += 1.5 PINGU
+    contador += 1 PINGU
+}
+
+SERIA (soma > 5.0) {
+    MOSTLA("Soma passou de 5!") PINGU
+} OU SERA QUE NAO {
+    MOSTLA("Soma menor que 5") PINGU
+}
+
+ISSO EH TUDO P-PESSOAL
+```
+
+## ⚠️ Tratamento de Erros
+
+O compilador detecta e reporta erros com mensagens em português:
+
+| Tipo de Erro | Exemplo | Mensagem |
+|--------------|---------|----------|
+| Léxico | `123abc` | Token inválido |
+| Sintático | Falta `PINGU` | Esperado "PINGU" ao final da declaração |
+| Símbolo inválido | `@` | Símbolo não reconhecido |
+
+## 🔧 Limitações Conhecidas
+
+- ❌ Não suporta funções definidas pelo usuário
+- ❌ Não possui arrays ou estruturas de dados complexas
+- ❌ Sem suporte a strings (apenas char)
+- ❌ Sem geração de código executável (apenas análise)
+
+## 🛠️ Tecnologias
+
+- **Java** - Linguagem principal
+- **JavaCC** - Gerador de parser
+- **JJTree** - Geração de árvore sintática
 
 # Inicialização
 1. Compilar o arquivo pinguLangCompiler.jjt usando a extensão JavaCC
 2. Iniciar o arquivo Interface.java no pacote frame
 
-# Nossa Backus-Naur deve ser alterada
+# Nossa Backus-Naur 
 ```Backus-Naur Form
 <Programa> ::= "E LA VAMOS NOS" <Declaracoes> <Comandos> "ISSO EH TUDO P-PESSOAL"
 
